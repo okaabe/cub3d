@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/09 01:05:09 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:53:24 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 # include	<stdbool.h>
 # include	<fcntl.h>
 # define TEXTURES "NO SO WE EA F C"
+# define POSITION "N S E W"
 # define white " \n"
 typedef struct s_vector
 {
 	int	x;
 	int	y;
+	char orientation;
 }	t_vector;	
 
 typedef struct s_data

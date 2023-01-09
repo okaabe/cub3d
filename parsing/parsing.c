@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/09 14:28:21 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:59:52 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,37 @@
 // 	}
 	
 // }
+
+void get_player_postion(t_data	*data)
+{
+	int i;
+	char	*c;
+	char	**position;
+	int		j;
+
+	position = ft_split(POSITION, ' ');
+	i = 0;
+	while(data->map[i])
+	{
+		j = 0;
+		while(position[j])
+		{
+			c = ft_strchr(data->map[i], position[j][0]);
+			if (c)
+				break;
+			j++;
+		}
+		if (c)
+		{
+			data->player_position.y = i;
+			data->player_position.x = c - data->map[i];
+			data->player_position.orientation = *c;
+			data->map[data->player_position.y][data->player_position.x] = '0';
+			break;
+		}
+		i++;
+	}
+}
 
 char *fill_the_grid(char *str,size_t len)
 {
@@ -60,8 +91,9 @@ void 	fill_map(t_list **map, t_data *data)
 {
 	int	i;
 	int len;
-	int whith = get_map_len(*map);
-	printf("%d :::\n", whith);
+	
+	data->map_width = get_map_len(*map);
+	printf("%d :::\n", data->map_width);
 	len = ft_lstsize(*map); 
 	i = 0;
 	data->map = malloc(len * (sizeof(char **) + 1));
@@ -69,7 +101,7 @@ void 	fill_map(t_list **map, t_data *data)
 	data->map[len] = NULL;
 	while (i < len)
 	{
-		data->map[i] = fill_the_grid((*map)->content, whith);
+		data->map[i] = fill_the_grid((*map)->content, data->map_width);
 		*map = (*map)->next;
 		i++;
 	}
@@ -177,6 +209,7 @@ t_data get_map(char *file)
 	}
 	get_textures(&map, &data);
 	fill_map(&map, &data);
+	get_player_postion(&data);
 	int i = 0;
 	while (data.map[i])
 	{
