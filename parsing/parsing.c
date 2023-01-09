@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/09 14:59:52 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:27:01 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 	
 // }
 
-void get_player_postion(t_data	*data)
+void get_player_postion(t_map_data	*data)
 {
 	int i;
 	char	*c;
@@ -87,7 +87,7 @@ size_t get_map_len(t_list *map)
 	return len;	
 }
 
-void 	fill_map(t_list **map, t_data *data)
+void 	fill_map(t_list **map, t_map_data *data)
 {
 	int	i;
 	int len;
@@ -123,7 +123,7 @@ bool check_space(char *str)
 	return (true);
 }
 
-void	store_it(t_data *data, t_list **map, char *str)
+void	store_it(t_map_data *data, t_list **map, char *str)
 {
 	if (!ft_strncmp(str, "NO", ft_strlen(str)))
 		data->no = (*map)->content;
@@ -139,7 +139,7 @@ void	store_it(t_data *data, t_list **map, char *str)
 		data->c = (*map)->content;
 }
 
-void	get_textures(t_list **map, t_data *data)
+void	get_textures(t_list **map, t_map_data *data)
 {
 	char **text;
 	int		i;
@@ -185,12 +185,12 @@ t_list	*get_line(int fd)
 	return	(ft_lstnew(content, 0));
 }
 
-t_data get_map(char *file)
+t_map_data get_map(char *file)
 {
 	int		fd;
 	t_list	*map;
 	t_list	*new;
-	t_data	data;
+	t_map_data	data;
 
 	ft_memset(&data, 0, sizeof(data));
 	map = NULL;
@@ -211,10 +211,6 @@ t_data get_map(char *file)
 	fill_map(&map, &data);
 	get_player_postion(&data);
 	int i = 0;
-	while (data.map[i])
-	{
-		printf("%s\n", data.map[i]);
-		i++;
-	}
+	return data;
 	// check_map_walls(data.map);
 }

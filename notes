@@ -1,1 +1,3 @@
-compile : gcc main.c ./parsing/parsing.c ./libft/libft.a -fsanitize=address
+compile : gcc -lmlx -framework OpenGL -framework AppKit main.c ./parsing/parsing.c  mini_intro.c ./libft/libft.a
+
+soh cah toa
