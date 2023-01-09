@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/11 15:22:41 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/22 19:35:38 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_data	data;
+	char			*ptr;
+	unsigned int	i;
 
-	data = get_map(argv[1]);
-	
+	i = 0;
+	if (!s)
+		return (NULL);
+	ptr = malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	while (s[i])
+	{
+		ptr[i] = f(i, s[i]);
+		i++;
+	}
+	ptr[i] = 0;
+	return (ptr);
 }

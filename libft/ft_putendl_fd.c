@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/11 16:13:04 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/11 16:29:41 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+void	ft_putendl_fd(char *s, int fd)
 {
-	t_data	data;
-
-	data = get_map(argv[1]);
-	
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

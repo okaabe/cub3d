@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/14 13:15:40 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/22 19:56:46 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_data	data;
-
-	data = get_map(argv[1]);
-	
+	if (!lst || !f)
+		return ;
+	while (lst)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
 }

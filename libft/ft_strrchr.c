@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/04 09:43:44 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/18 21:31:26 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_data	data;
+	int	i;
 
-	data = get_map(argv[1]);
-	
+	i = 0;
+	while (s[i])
+		i++;
+	while (i >= 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i--;
+	}
+	return (NULL);
 }

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/02 10:29:55 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/22 19:27:34 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+int	ft_isprint(int c)
 {
-	t_data	data;
-
-	data = get_map(argv[1]);
-	
+	return (c >= 32 && c <= 126);
 }

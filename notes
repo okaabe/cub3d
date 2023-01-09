@@ -1,0 +1,1 @@
+compile : gcc main.c ./parsing/parsing.c ./libft/libft.a -fsanitize=address

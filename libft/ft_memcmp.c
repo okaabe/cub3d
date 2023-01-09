@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/06 12:55:19 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/06 16:38:08 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	t_data	data;
+	size_t			i;
 
-	data = get_map(argv[1]);
-	
+	i = 0;
+	while (i < n)
+	{
+		if (*(unsigned char *)(s1 + i) != *(unsigned char *)(s2 + i))
+			return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
+		i++;
+	}
+	return (0);
 }

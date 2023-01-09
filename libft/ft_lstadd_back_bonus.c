@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/14 11:36:38 by aamoussa          #+#    #+#             */
+/*   Updated: 2022/11/02 19:20:40 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_data	data;
+	t_list	*tmp;
 
-	data = get_map(argv[1]);
-	
+	tmp = *lst;
+	if (!(*lst))
+	{
+		*lst = new;
+		new->next = NULL;
+	}
+	else
+	{	
+		while (tmp->next)
+		{
+			tmp = tmp->next;
+		}
+		tmp->next = new;
+	}
 }

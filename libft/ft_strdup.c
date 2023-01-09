@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/07 19:05:41 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/07 19:10:20 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strdup(const char *src)
 {
-	t_data	data;
+	int		i;
+	int		size;
+	char	*ptr;
 
-	data = get_map(argv[1]);
-	
+	i = 0;
+	size = ft_strlen(src);
+	ptr = malloc(sizeof(char) * (size + 1));
+	if (ptr == 0)
+		return (0);
+	while (src[i])
+	{
+		ptr[i] = src[i];
+		i++;
+	}
+	ptr[i] = 0;
+	return (ptr);
 }

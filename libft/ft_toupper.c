@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/04 09:06:34 by aamoussa          #+#    #+#             */
+/*   Updated: 2022/10/05 16:18:14 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+void	ft_free(char **b)
 {
-	t_data	data;
+	free(*b);
+	*b = NULL;
+}
 
-	data = get_map(argv[1]);
-	
+int	ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }

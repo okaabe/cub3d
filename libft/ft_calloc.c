@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/07 15:49:40 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/22 19:25:35 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+void	*ft_calloc(size_t count, size_t size)
 {
-	t_data	data;
+	void	*ptr;
 
-	data = get_map(argv[1]);
-	
+	ptr = malloc(count * size);
+	if (ptr == 0)
+		return (NULL);
+	ft_bzero(ptr, count * size);
+	return (ptr);
 }

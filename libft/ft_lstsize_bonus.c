@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/08 21:45:35 by aamoussa         ###   ########.fr       */
+/*   Created: 2021/11/11 19:08:30 by aamoussa          #+#    #+#             */
+/*   Updated: 2021/11/14 21:51:34 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include"libft.h"
 
-int	main(int argc, char **argv)
+int	ft_lstsize(t_list *lst)
 {
-	t_data	data;
+	int	counter;
 
-	data = get_map(argv[1]);
-	
+	counter = 1;
+	if (lst == NULL)
+		return (0);
+	while (lst->next)
+	{
+		lst = lst->next;
+		counter++;
+	}
+	return (counter);
 }
