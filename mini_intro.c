@@ -43,6 +43,7 @@ void initializeMlx(t_data *mlx_data, t_map_data *map)
 						&mlx_data->endian);	
 }
 
+
 void draw2Dmap(t_data * mlxData, t_map_data	*map)
 {
 	int totalX = -1;
@@ -79,17 +80,24 @@ void updatePlayerPosition(t_frame *frameData)
 {
 	int y_index;
 	int x_index;
-
-	y_index = (frameData->player.y) - 3; 
-	while (y_index < ((frameData->player.y) + 3))
+	int r = 5;
+	int theta = 0;
+	int	x;
+	int y;
+	
+	y_index = frameData->player.y;
+	x_index = frameData->player.x; 
+	while (r)
 	{
-		x_index = (frameData->player.x) - 3;
-		while (x_index < ((frameData->player.x) + 3))
-		{
-			my_mlx_pixel_put(&frameData->mlxData, x_index, y_index,  0xcd6155);
-			x_index += 1;
-		}
-		y_index += 1;
+		theta = 0;
+	while (theta <= 360)
+	{
+		x = x_index + r * cos((theta * M_PI) / 180.0);
+		y = y_index + r * sin((theta * M_PI) / 180.0);
+		my_mlx_pixel_put(&frameData->mlxData, x, y,  0xcd6155);
+		theta++;
+	}
+	r--;
 	}
 }
 
@@ -136,14 +144,15 @@ void valid_move(int keycode, t_frame* frameData)
 {
     int tmp_x = frameData->player.x;
     int tmp_y = frameData->player.y;
+	printf("test : %d\n", keycode);
     if (keycode == 13)
     {
         tmp_y +=  (sin(frameData->player.rotation_angle) * 5);
-        tmp_x +=  (cos(frameData->player.rotation_angle) * 5);
+         tmp_x +=  (cos(frameData->player.rotation_angle) * 5);
     }
     else if ( keycode == 0)
     {
-        tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 5);
+         tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 5);
         tmp_x -=  (cos(frameData->player.rotation_angle + M_PI / 2) * 5);
     }
     else if (keycode == 2)
@@ -154,7 +163,7 @@ void valid_move(int keycode, t_frame* frameData)
     else if (keycode == 1)
     {
         tmp_y -=  (sin(frameData->player.rotation_angle) * 5);
-        tmp_x -=  (cos(frameData->player.rotation_angle) * 5);        
+        tmp_x -=  (cos(frameData->player.rotation_angle) * 5); 
     }
     isThereA_wall(tmp_x, tmp_y, frameData);
 }
@@ -167,9 +176,9 @@ int player_moves(int keycode, t_frame *frameData)
     else if (keycode == 124)
         frameData->player.rotation_angle += (8 * M_PI) / 180;
     if (frameData->player.rotation_angle < 0)
-        frameData->player.rotation_angle += M_PI * 2;
+        frameData->player.rotation_angle += (M_PI * 2);
     else if (frameData->player.rotation_angle > M_PI * 2)
-        frameData->player.rotation_angle -= M_PI * 2;
+        frameData->player.rotation_angle -= (M_PI * 2);
     frameGenerator(frameData);
     return (0);
 }

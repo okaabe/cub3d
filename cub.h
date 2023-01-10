@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/09 17:08:55 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/10 13:37:27 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_map_data
 // player struct
 typedef struct s_player
 {
-	int x;
-	int y;
+	double x;
+	double y;
 	// int	radius;
 	// int	turnDirection;
 	// int walkDirection;
