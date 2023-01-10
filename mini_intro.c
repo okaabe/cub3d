@@ -146,23 +146,23 @@ void valid_move(int keycode, t_frame* frameData)
     double tmp_y = frameData->player.y;
     if (keycode == 13)
     {
-        tmp_y +=  (sin(frameData->player.rotation_angle) * 5);
-         tmp_x +=  (cos(frameData->player.rotation_angle) * 5);
+        tmp_y +=  (sin(frameData->player.rotation_angle) * 10);
+         tmp_x +=  (cos(frameData->player.rotation_angle) * 10);
     }
     else if ( keycode == 0)
     {
-         tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 5);
-        tmp_x -=  (cos(frameData->player.rotation_angle + M_PI / 2) * 5);
+         tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 10);
+        tmp_x -=  (cos(frameData->player.rotation_angle + M_PI / 2) * 10);
     }
     else if (keycode == 2)
     {
-        tmp_y +=  (sin(frameData->player.rotation_angle + M_PI / 2) * 5);
-        tmp_x +=  (cos(frameData->player.rotation_angle + M_PI / 2) * 5);    
+        tmp_y +=  (sin(frameData->player.rotation_angle + M_PI / 2) * 10);
+        tmp_x +=  (cos(frameData->player.rotation_angle + M_PI / 2) * 10);    
     }
     else if (keycode == 1)
     {
-        tmp_y -=  (sin(frameData->player.rotation_angle) * 5);
-        tmp_x -=  (cos(frameData->player.rotation_angle) * 5); 
+        tmp_y -=  (sin(frameData->player.rotation_angle) * 10);
+        tmp_x -=  (cos(frameData->player.rotation_angle) * 10); 
     }
     isThereA_wall(tmp_x, tmp_y, frameData);
 }
@@ -171,9 +171,9 @@ int player_moves(int keycode, t_frame *frameData)
 {
     valid_move(keycode, frameData);
     if (keycode == 123)
-        frameData->player.rotation_angle -= (8 * M_PI) / 180;
+        frameData->player.rotation_angle -= (9 * M_PI) / 180;
     else if (keycode == 124)
-        frameData->player.rotation_angle += (8 * M_PI) / 180;
+        frameData->player.rotation_angle += (9 * M_PI) / 180;
     if (frameData->player.rotation_angle < 0)
         frameData->player.rotation_angle += (M_PI * 2);
     else if (frameData->player.rotation_angle > M_PI * 2)
