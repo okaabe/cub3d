@@ -75,6 +75,25 @@ void draw2Dmap(t_data * mlxData, t_map_data	*map)
 	 	}
 	}	
 }
+void drawRay(t_frame* frameData, double ray_angle)
+{
+	double endX = (frameData->player.x) + (cos(ray_angle) * 30);
+	double endY = frameData->player.y + (sin(ray_angle) * 30);
+	double deltaX = endX - frameData->player.x;
+	double deltaY = endY - frameData->player.y;
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	deltaX /= pixels;
+	deltaY /= pixels;
+	endX = frameData->player.x;
+	endY = frameData->player.y;
+	while (pixels)
+	{
+	    my_mlx_pixel_put(&frameData->mlxData, endX, endY, 0xcd6155);
+	    endX += deltaX;
+	    endY += deltaY;
+	    --pixels;
+	}
+}
 
 void updatePlayerPosition(t_frame *frameData)
 {
@@ -98,6 +117,22 @@ void updatePlayerPosition(t_frame *frameData)
 		theta++;
 	}
 	r--;
+	}
+}
+
+int castingRays(t_frame* frameData)
+{
+	double ray_angle;
+	double rays_numbers;
+
+	rays_numbers = frameData->rays.N_rays;
+	printf("%f\n", rays_numbers);
+	ray_angle = frameData->player.rotation_angle - (frameData->rays.Fov / 2);
+	while (rays_numbers)
+	{
+		drawRay(frameData, ray_angle);
+		ray_angle += frameData->rays.Fov / frameData->rays.N_rays;
+		rays_numbers--;
 	}
 }
 
@@ -126,6 +161,7 @@ void frameGenerator(t_frame *frameData)
 	draw2Dmap(&(frameData->mlxData), &frameData->data);
 	updatePlayerPosition(frameData);
 	playerDirection(frameData);
+	castingRays(frameData);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
 
