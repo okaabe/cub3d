@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/10 00:09:15 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:26:23 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int argc, char **argv)
 	frameData.player.x = (frameData.data.player_position.x * 32) + 16;
 	frameData.player.y = (frameData.data.player_position.y * 32) + 16;
 	frameData.player.rotation_angle = (M_PI / 2);
+	frameData.rays.Fov = FOV_ANGLE * (M_PI / 180);
+	frameData.rays.N_rays = (frameData.data.map_width * 32) / RAY_WIDTH;
 	// initialize the mlx data 
 	initializeMlx(&frameData.mlxData, &frameData.data);
 	// render 2d map and update player position (as well as the player direction not yet)

@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/10 15:16:19 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:42:00 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
 
-# define SCREEN_HEIGHT	480
-# define SCREEN_WIDTH	960
 # include	"./libft/libft.h"
 # include	<stdbool.h>
 # include	<fcntl.h>
@@ -24,6 +22,8 @@
 # define TEXTURES "NO SO WE EA F C"
 # define POSITION "N S E W"
 # define white " \n"
+# define FOV_ANGLE 60
+# define RAY_WIDTH 100
 
 typedef struct s_vector
 {
@@ -59,6 +59,12 @@ typedef struct s_player
 	double rotation_speed;
 } t_player;
 
+typedef struct s_rays
+{
+	double Fov;
+	double N_rays;
+} t_rays;
+
 // mlx struct
 typedef struct	s_data {
 	void	*img;
@@ -76,6 +82,7 @@ typedef struct s_frame_dependencies
 	t_player	player;
 	t_data		mlxData;
 	t_map_data	data;
+	t_rays 		rays;
 }	t_frame;
 
 t_map_data	get_map(char *file);
