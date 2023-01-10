@@ -129,7 +129,7 @@ void frameGenerator(t_frame *frameData)
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
 
-void isThereA_wall(int tmp_x, int tmp_y, t_frame* frameData)
+void isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData)
 {
     int x = tmp_x / 32;
     int y = tmp_y / 32;
@@ -144,7 +144,6 @@ void valid_move(int keycode, t_frame* frameData)
 {
     int tmp_x = frameData->player.x;
     int tmp_y = frameData->player.y;
-	printf("test : %d\n", keycode);
     if (keycode == 13)
     {
         tmp_y +=  (sin(frameData->player.rotation_angle) * 5);
