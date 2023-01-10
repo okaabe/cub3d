@@ -1,6 +1,6 @@
 #include "cub.h"
 
-#define window_height 11 * 32
+
 #define window_width 15 * 32
 
 
@@ -142,8 +142,8 @@ void isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData)
 
 void valid_move(int keycode, t_frame* frameData)
 {
-    int tmp_x = frameData->player.x;
-    int tmp_y = frameData->player.y;
+    double tmp_x = frameData->player.x;
+    double tmp_y = frameData->player.y;
     if (keycode == 13)
     {
         tmp_y +=  (sin(frameData->player.rotation_angle) * 5);
