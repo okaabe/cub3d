@@ -1,4 +1,4 @@
-compile : gcc -lmlx -framework OpenGL -framework AppKit main.c ./parsing/parsing.c  mini_intro.c ./libft/libft.a
+compile : gcc -lmlx -framework OpenGL -framework AppKit main.c ./parsing/parsing.c  mini_intro.c horz_rays.c  vert_rays.c ./libft/libft.a
 
 soh cah toa
 
@@ -9,3 +9,5 @@ y = y0 + r * sin(theta)
 
  Fov
  N_rays
+
+ t = o / a .    t * o = a / 1 .    

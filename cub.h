@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/10 16:42:00 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/11 04:19:16 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@
 # define POSITION "N S E W"
 # define white " \n"
 # define FOV_ANGLE 60
-# define RAY_WIDTH 100
+# define RAY_WIDTH 20
 
+typedef struct s_vector_db
+{
+	double x;
+	double y;
+}	t_vector_db;
+	
 typedef struct s_vector
 {
 	int	x;
@@ -61,8 +67,12 @@ typedef struct s_player
 
 typedef struct s_rays
 {
-	double Fov;
-	double N_rays;
+	double	ray_angle;
+	double	distance;
+	bool	isray_facing_down;
+	bool	isray_facing_up;
+	bool	isray_facing_right;
+	bool	is_ray_facing_left;
 } t_rays;
 
 // mlx struct
@@ -82,12 +92,22 @@ typedef struct s_frame_dependencies
 	t_player	player;
 	t_data		mlxData;
 	t_map_data	data;
-	t_rays 		rays;
+	double		Fov;
+	double		N_rays;	
+	t_rays 		*rays;
 }	t_frame;
 
 t_map_data	get_map(char *file);
 void		frameGenerator(t_frame *frameData);
 void		initializeMlx(t_data *mlx_data, t_map_data *map);
 int			player_moves(int keycode, t_frame *frameData);
+void		find_the_facing_of_ray(t_frame *frameData, int ray);
+void		isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+double		Horz_rays(t_frame *frameData, int ray);
+double		vert_rays(t_frame *frameData, int ray);
+double		calculate_distance(t_vector_db first, t_vector_db sec);
+bool		is_wall(double tmp_x, double tmp_y, t_frame* frameData);
+void		drawray(t_frame* frameData, double ray_angle, double distance);
 
 #endif

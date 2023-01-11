@@ -75,25 +75,6 @@ void draw2Dmap(t_data * mlxData, t_map_data	*map)
 	 	}
 	}	
 }
-void drawRay(t_frame* frameData, double ray_angle)
-{
-	double endX = (frameData->player.x) + (cos(ray_angle) * 30);
-	double endY = frameData->player.y + (sin(ray_angle) * 30);
-	double deltaX = endX - frameData->player.x;
-	double deltaY = endY - frameData->player.y;
-	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	deltaX /= pixels;
-	deltaY /= pixels;
-	endX = frameData->player.x;
-	endY = frameData->player.y;
-	while (pixels)
-	{
-	    my_mlx_pixel_put(&frameData->mlxData, endX, endY, 0xcd6155);
-	    endX += deltaX;
-	    endY += deltaY;
-	    --pixels;
-	}
-}
 
 void updatePlayerPosition(t_frame *frameData)
 {
@@ -120,26 +101,71 @@ void updatePlayerPosition(t_frame *frameData)
 	}
 }
 
+void check_facing(t_frame *framData, int ray)
+{
+	if (framData->rays[ray].is_ray_facing_left)
+		printf("ray is facing left\n");
+	if (framData->rays[ray].isray_facing_right)
+		printf("ray is facing right\n");
+	if (framData->rays[ray].isray_facing_down)
+		printf("ray is facing down\n");
+	if (framData->rays[ray].isray_facing_up)
+		printf("ray is facing up");
+}
+
+void get_distance(t_frame *framedata, t_vector_db distances, int ray)
+{
+	if (distances.x == 0)
+	{	
+		printf("i got : %f\n", distances.y);
+		framedata->rays[ray].distance = distances.y;
+		return;
+	}
+	if (distances.y == 0)
+	{
+		printf("i got : %f\n", distances.x);	
+		framedata->rays[ray].distance = distances.x;
+		return;
+	}
+	if (distances.x < distances.y)
+		framedata->rays[ray].distance = distances.x;	
+	else
+		framedata->rays[ray].distance = distances.y;
+}
+
 int castingRays(t_frame* frameData)
 {
 	double ray_angle;
 	double rays_numbers;
+	int		i;
+	t_vector_db	distances;
+	
+	i = 0;
+	rays_numbers = frameData->N_rays;
+	// printf("%f\n", rays_numbers);
+	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
 
-	rays_numbers = frameData->rays.N_rays;
-	printf("%f\n", rays_numbers);
-	ray_angle = frameData->player.rotation_angle - (frameData->rays.Fov / 2);
-	while (rays_numbers)
+	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
+	while (i < rays_numbers)
 	{
-		drawRay(frameData, ray_angle);
-		ray_angle += frameData->rays.Fov / frameData->rays.N_rays;
-		rays_numbers--;
+		frameData->rays[i].ray_angle = ray_angle;
+		find_the_facing_of_ray(frameData, i);
+		// check_facing(frameData, i);
+		distances.x = Horz_rays(frameData, i);
+		distances.y = vert_rays(frameData, i);
+		get_distance(frameData,distances,i);
+		printf("horize dist : %f\n", distances.x);
+		printf("vertical dist : %f\n", distances.y);
+		drawray(frameData, ray_angle, frameData->rays[i].distance);
+		ray_angle += frameData->Fov / frameData->N_rays;
+		i++;
 	}
 }
 
 void playerDirection(t_frame* frameData)
 {
-	double endX = (frameData->player.x) + (cos(frameData->player.rotation_angle) * 30);
-	double endY = frameData->player.y + (sin(frameData->player.rotation_angle) * 30);
+	double endX = (frameData->player.x) + (cos(frameData->player.rotation_angle) * 50);
+	double endY = frameData->player.y + (sin(frameData->player.rotation_angle) * 50);
 	double deltaX = endX - frameData->player.x;
 	double deltaY = endY - frameData->player.y;
 	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
@@ -160,7 +186,7 @@ void frameGenerator(t_frame *frameData)
 {
 	draw2Dmap(&(frameData->mlxData), &frameData->data);
 	updatePlayerPosition(frameData);
-	playerDirection(frameData);
+	// playerDirection(frameData);
 	castingRays(frameData);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
@@ -183,17 +209,17 @@ void valid_move(int keycode, t_frame* frameData)
     if (keycode == 13)
     {
         tmp_y +=  (sin(frameData->player.rotation_angle) * 10);
-         tmp_x +=  (cos(frameData->player.rotation_angle) * 10);
+        tmp_x +=  (cos(frameData->player.rotation_angle) * 10);
     }
     else if ( keycode == 0)
     {
-         tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 10);
+        tmp_y -=  (sin(frameData->player.rotation_angle + M_PI / 2) * 10);
         tmp_x -=  (cos(frameData->player.rotation_angle + M_PI / 2) * 10);
     }
     else if (keycode == 2)
     {
         tmp_y +=  (sin(frameData->player.rotation_angle + M_PI / 2) * 10);
-        tmp_x +=  (cos(frameData->player.rotation_angle + M_PI / 2) * 10);    
+        tmp_x +=  (cos(frameData->player.rotation_angle + M_PI / 2) * 10);
     }
     else if (keycode == 1)
     {
