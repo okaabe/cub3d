@@ -110,7 +110,7 @@ void check_facing(t_frame *framData, int ray)
 	if (framData->rays[ray].isray_facing_down)
 		printf("ray is facing down\n");
 	if (framData->rays[ray].isray_facing_up)
-		printf("ray is facing up");
+		printf("ray is facing up\n");
 }
 
 void get_distance(t_frame *framedata, t_vector_db distances, int ray)
@@ -133,6 +133,15 @@ void get_distance(t_frame *framedata, t_vector_db distances, int ray)
 		framedata->rays[ray].distance = distances.y;
 }
 
+double	normalize(double ray_angle)
+{
+	if (ray_angle < 0)
+        ray_angle += (M_PI * 2);
+    else if (ray_angle > M_PI * 2)
+        ray_angle -= (M_PI * 2);
+	return (ray_angle);
+}
+
 int castingRays(t_frame* frameData)
 {
 	double ray_angle;
@@ -143,19 +152,19 @@ int castingRays(t_frame* frameData)
 	i = 0;
 	rays_numbers = frameData->N_rays;
 	// printf("%f\n", rays_numbers);
+	printf("rotation : %f\n", frameData->player.rotation_angle);
 	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
-
 	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
 	while (i < rays_numbers)
 	{
-		frameData->rays[i].ray_angle = ray_angle;
+		frameData->rays[i].ray_angle = normalize(ray_angle);
 		find_the_facing_of_ray(frameData, i);
-		// check_facing(frameData, i);
+		check_facing(frameData, i);
 		distances.x = Horz_rays(frameData, i);
 		distances.y = vert_rays(frameData, i);
 		get_distance(frameData,distances,i);
-		printf("horize dist : %f\n", distances.x);
-		printf("vertical dist : %f\n", distances.y);
+		// printf("horize dist : %f\n", distances.x);
+		// printf("vertical dist : %f\n", distances.y);
 		drawray(frameData, ray_angle, frameData->rays[i].distance);
 		ray_angle += frameData->Fov / frameData->N_rays;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/11 04:12:57 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/11 21:22:35 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	find_hsteps(t_frame *frameData, t_vector_db *intercept, t_vector_db *step, 
 	intercept->y = (floor(frameData->player.y / 32)) * 32;
 	
 	if (frameData->rays[ray].isray_facing_down)
+	{
+		// printf("player facing down\n");	
 		intercept->y += 32;
+	}
 	intercept->x = frameData->player.x + (intercept->y - frameData->player.y) / tan(frameData->rays[ray].ray_angle); 
 	
 	step->y = 32;
@@ -111,6 +114,7 @@ double	Horz_rays(t_frame *frameData, int ray)
 	{
 		if(is_wall(horz_touch.x, check_y(frameData, horz_touch.y, ray), frameData))
 		{
+			printf("horz_touh->x %f horz_touh->y %f\n", floor(horz_touch.x / 32), floor(horz_touch.y / 32));
 			return (calculate_distance(player, horz_touch));		
 		}
 		else
