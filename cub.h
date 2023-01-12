@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/12 16:56:09 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/12 19:06:51 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define FOV_ANGLE 60
 # define RAY_WIDTH 20
 # define MINI_MAP_SIZE 0.2
-# define MAP_WIDTH 
-# define MAP_HEIGHT 
+# define MAP_WIDTH 1366
+# define MAP_HEIGHT 768
 # define TILE_SIZE 32
 
 typedef struct s_vector_db

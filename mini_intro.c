@@ -1,8 +1,6 @@
 #include "cub.h"
 
 
-#define window_width 15 * 32
-
 
 // char map[11][15] = {
 //             {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
@@ -29,7 +27,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || x >= 34 * TILE_SIZE || y < 0 || y >= 14 * TILE_SIZE)
+	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
 		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -39,8 +37,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 void initializeMlx(t_data *mlx_data, t_map_data *map)
 {
 	mlx_data->mlx = mlx_init();
-	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE, "Hello world!");
-	mlx_data->img = mlx_new_image(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE);
+	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, MAP_WIDTH,  MAP_HEIGHT, "Hello world!");
+	mlx_data->img = mlx_new_image(mlx_data->mlx, MAP_WIDTH, MAP_HEIGHT);
 	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel, &mlx_data->line_length,
 						&mlx_data->endian);	
 }
@@ -165,13 +163,13 @@ void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, 
 {
 	int y_index;
 
-	int end = (frameData->data.map_height * TILE_SIZE / 2)  + (wallHeight / 2);
+	int end = (MAP_HEIGHT / 2)  + (wallHeight / 2);
 	// y_index = fabs(((frameData->data.map_height * 32) / 2 ) - (wallHeight / 2));
-	y_index = ((frameData->data.map_height * TILE_SIZE) / 2 ) - (wallHeight / 2);
+	y_index = ((MAP_HEIGHT) / 2 ) - (wallHeight / 2);
 	if(y_index < 0)
 		y_index = 0;
-	if (end > frameData->data.map_height * TILE_SIZE)
-		end = frameData->data.map_height * TILE_SIZE;
+	if (end > MAP_HEIGHT)
+		end = MAP_HEIGHT;
 	while (y_index <  end)
 	{
 		my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xfdfefe);
@@ -194,7 +192,7 @@ void renderWall(t_frame* frameData)
 		// printf("%f\n", frameData->rays[0].distance);
 		// printf("%f\n", ray_distance);
 		// exit(0);
-		projectionDistance = ((frameData->data.map_width * TILE_SIZE) / 2) / tan(frameData->Fov / 2);
+		projectionDistance = ((MAP_WIDTH) / 2) / tan(frameData->Fov / 2);
 		wallHeight = (TILE_SIZE / ray_distance) * projectionDistance;
 		drawWall(frameData, wallHeight, projectionDistance, i);
 		i++;
@@ -222,10 +220,11 @@ int castingRays(t_frame* frameData)
 		get_distance(frameData,distances,i);
 		// printf("horize dist : %f\n", distances.x);
 		// printf("vertical dist : %f\n", distances.y);
-		drawray(frameData, ray_angle, frameData->rays[i].distance);
+		// drawray(frameData, ray_angle, frameData->rays[i].distance);
 		ray_angle += frameData->Fov / frameData->N_rays;
 		i++;
 	}
+	return (0);
 }
 
 void playerDirection(t_frame* frameData)
@@ -251,14 +250,14 @@ void playerDirection(t_frame* frameData)
 void frameGenerator(t_frame *frameData)
 {
 	mlx_destroy_image(frameData->mlxData.mlx, frameData->mlxData.img);
-	frameData->mlxData.img = mlx_new_image(frameData->mlxData.mlx, frameData->data.map_width * TILE_SIZE, frameData->data.map_height * TILE_SIZE);
+	frameData->mlxData.img = mlx_new_image(frameData->mlxData.mlx, MAP_WIDTH, MAP_HEIGHT);
 	frameData->mlxData.addr = mlx_get_data_addr(frameData->mlxData.img, &frameData->mlxData.bits_per_pixel, &frameData->mlxData.line_length,
 						&frameData->mlxData.endian);	
 	mlx_clear_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win);
 	castingRays(frameData);
 	renderWall(frameData);
-	draw2Dmap(&(frameData->mlxData), &frameData->data);
-	updatePlayerPosition(frameData);
+	// draw2Dmap(&(frameData->mlxData), &frameData->data);
+	//updatePlayerPosition(frameData);
 	// playerDirection(frameData);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
