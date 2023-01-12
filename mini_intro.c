@@ -29,6 +29,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x < 0 || x >= 34 * TILE_SIZE || y < 0 || y >= 14 * TILE_SIZE)
+		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
@@ -37,8 +39,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 void initializeMlx(t_data *mlx_data, t_map_data *map)
 {
 	mlx_data->mlx = mlx_init();
-	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, map->map_width * 32, map->map_height * 32, "Hello world!");
-	mlx_data->img = mlx_new_image(mlx_data->mlx, map->map_width * 32, map->map_height * 32);
+	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE, "Hello world!");
+	mlx_data->img = mlx_new_image(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE);
 	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel, &mlx_data->line_length,
 						&mlx_data->endian);	
 }
@@ -56,25 +58,24 @@ void draw2Dmap(t_data * mlxData, t_map_data	*map)
 		totalX = -1;
 		while (++totalX < map->map_width)
 		{
-			y_index = (totalY * 32) - 1;
-			while (++y_index < ((totalY + 1) * 32))
+			y_index = (totalY * TILE_SIZE) - 1;
+			while (++y_index < ((totalY + 1) * TILE_SIZE))
 			{
-				x_index = (totalX * 32) - 1;
-				while (++x_index < ((totalX + 1) * 32))
+				x_index = (totalX * TILE_SIZE) - 1;
+				while (++x_index < ((totalX + 1) * TILE_SIZE))
 				{
 					if (map->map[totalY][totalX] == '1')
-						my_mlx_pixel_put(mlxData, x_index, y_index, 0x17202a);
+						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE , y_index * MINI_MAP_SIZE, 0x17202a);
 					else if (map->map[totalY][totalX] == ' ')
-						my_mlx_pixel_put(mlxData, x_index, y_index, 0x2c0545);	
-					else if (x_index + 1 == (totalX + 1) * 32 || y_index + 1 == (totalY + 1) * 32)
-						my_mlx_pixel_put(mlxData, x_index, y_index, 0x17202a);
+						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE, y_index * MINI_MAP_SIZE, 0x2c0545);	
 					else
-						my_mlx_pixel_put(mlxData, x_index, y_index, 0xfdfefe);
+						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE , y_index * MINI_MAP_SIZE, 0xfdfefe);
 				}
 			}
 	 	}
 	}	
 }
+
 
 void updatePlayerPosition(t_frame *frameData)
 {
@@ -94,36 +95,36 @@ void updatePlayerPosition(t_frame *frameData)
 	{
 		x = x_index + r * cos((theta * M_PI) / 180.0);
 		y = y_index + r * sin((theta * M_PI) / 180.0);
-		my_mlx_pixel_put(&frameData->mlxData, x, y,  0xcd6155);
+		my_mlx_pixel_put(&frameData->mlxData, x * MINI_MAP_SIZE, y * MINI_MAP_SIZE,  0xcd6155);
 		theta++;
 	}
 	r--;
 	}
 }
 
-void check_facing(t_frame *framData, int ray)
-{
-	if (framData->rays[ray].is_ray_facing_left)
-		printf("ray is facing left\n");
-	if (framData->rays[ray].isray_facing_right)
-		printf("ray is facing right\n");
-	if (framData->rays[ray].isray_facing_down)
-		printf("ray is facing down\n");
-	if (framData->rays[ray].isray_facing_up)
-		printf("ray is facing up\n");
-}
+// void check_facing(t_frame *framData, int ray)
+// {
+// 	if (framData->rays[ray].is_ray_facing_left)
+// 		printf("ray is facing left\n");
+// 	if (framData->rays[ray].isray_facing_right)
+// 		printf("ray is facing right\n");
+// 	if (framData->rays[ray].isray_facing_down)
+// 		printf("ray is facing down\n");
+// 	if (framData->rays[ray].isray_facing_up)
+// 		printf("ray is facing up\n");
+// }
 
 void get_distance(t_frame *framedata, t_vector_db distances, int ray)
 {
 	if (distances.x == 0)
 	{	
-		printf("i got : %f\n", distances.y);
+		//printf("i got : %f\n", distances.y);
 		framedata->rays[ray].distance = distances.y;
 		return;
 	}
 	if (distances.y == 0)
 	{
-		printf("i got : %f\n", distances.x);	
+		//printf("i got : %f\n", distances.x);	
 		framedata->rays[ray].distance = distances.x;
 		return;
 	}
@@ -142,6 +143,64 @@ double	normalize(double ray_angle)
 	return (ray_angle);
 }
 
+// void    draw_rect(t_frame *frameData, double wallheight, double projection_plane, int index)
+// {
+//     int finish = (frameData->data.map_height * 32 / 2) + (wallheight / 2);
+
+//     for(int y = (frameData->data.map_height * 32 / 2) - (wallheight / 2); y < finish; y++)
+//         my_mlx_pixel_put(&frameData->mlxData, index, y, 0xfdfefe);
+// }
+
+// void    draw_walls(t_frame *frameData)
+// {
+//     for (int projectile = 0; projectile < frameData->N_rays; projectile++)
+//     {
+//         double projection_plane = (frameData->data.map_width * 32 / 2) / tan(frameData->Fov / 2);
+//         double wallhight = (32 / frameData->rays[projectile].distance) * projection_plane;
+//         draw_rect(frameData, wallhight, projection_plane, projectile);
+//     }
+// }
+
+void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, int x_index)
+{
+	int y_index;
+
+	int end = (frameData->data.map_height * TILE_SIZE / 2)  + (wallHeight / 2);
+	// y_index = fabs(((frameData->data.map_height * 32) / 2 ) - (wallHeight / 2));
+	y_index = ((frameData->data.map_height * TILE_SIZE) / 2 ) - (wallHeight / 2);
+	if(y_index < 0)
+		y_index = 0;
+	if (end > frameData->data.map_height * TILE_SIZE)
+		end = frameData->data.map_height * TILE_SIZE;
+	while (y_index <  end)
+	{
+		my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xfdfefe);
+		y_index++;
+	}	
+}
+
+void renderWall(t_frame* frameData)
+{
+	double wallHeight;
+	double projectionDistance;
+	int i;
+	double	ray_distance;
+
+	int raynumber = frameData->N_rays;
+	i = 0;
+	while (i < raynumber)
+	{
+		ray_distance = frameData->rays[i].distance * cos(frameData->rays[i].ray_angle - frameData->player.rotation_angle);
+		// printf("%f\n", frameData->rays[0].distance);
+		// printf("%f\n", ray_distance);
+		// exit(0);
+		projectionDistance = ((frameData->data.map_width * TILE_SIZE) / 2) / tan(frameData->Fov / 2);
+		wallHeight = (TILE_SIZE / ray_distance) * projectionDistance;
+		drawWall(frameData, wallHeight, projectionDistance, i);
+		i++;
+	}
+}
+
 int castingRays(t_frame* frameData)
 {
 	double ray_angle;
@@ -151,15 +210,13 @@ int castingRays(t_frame* frameData)
 	
 	i = 0;
 	rays_numbers = frameData->N_rays;
-	// printf("%f\n", rays_numbers);
-	printf("rotation : %f\n", frameData->player.rotation_angle);
 	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
 	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
 	while (i < rays_numbers)
 	{
 		frameData->rays[i].ray_angle = normalize(ray_angle);
 		find_the_facing_of_ray(frameData, i);
-		check_facing(frameData, i);
+		//check_facing(frameData, i);
 		distances.x = Horz_rays(frameData, i);
 		distances.y = vert_rays(frameData, i);
 		get_distance(frameData,distances,i);
@@ -193,17 +250,23 @@ void playerDirection(t_frame* frameData)
 
 void frameGenerator(t_frame *frameData)
 {
+	mlx_destroy_image(frameData->mlxData.mlx, frameData->mlxData.img);
+	frameData->mlxData.img = mlx_new_image(frameData->mlxData.mlx, frameData->data.map_width * TILE_SIZE, frameData->data.map_height * TILE_SIZE);
+	frameData->mlxData.addr = mlx_get_data_addr(frameData->mlxData.img, &frameData->mlxData.bits_per_pixel, &frameData->mlxData.line_length,
+						&frameData->mlxData.endian);	
+	mlx_clear_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win);
+	castingRays(frameData);
+	renderWall(frameData);
 	draw2Dmap(&(frameData->mlxData), &frameData->data);
 	updatePlayerPosition(frameData);
 	// playerDirection(frameData);
-	castingRays(frameData);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
 
 void isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData)
 {
-    int x = tmp_x / 32;
-    int y = tmp_y / 32;
+    int x = tmp_x / TILE_SIZE;
+    int y = tmp_y / TILE_SIZE;
     if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
     {
         frameData->player.x = tmp_x;

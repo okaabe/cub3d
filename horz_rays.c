@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   horz_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/11 21:22:35 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/12 16:49:03 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	find_the_facing_of_ray(t_frame *frameData, int ray)
 {
-	printf("angle %f \n", frameData->rays[ray].ray_angle);
 	frameData->rays[ray].isray_facing_down = frameData->rays[ray].ray_angle > 0 && frameData->rays[ray].ray_angle < M_PI;
 	frameData->rays[ray].isray_facing_up = !frameData->rays[ray].isray_facing_down;
 	frameData->rays[ray].isray_facing_right = frameData->rays[ray].ray_angle < 0.5 * M_PI || frameData->rays[ray].ray_angle > 1.5 * M_PI;
@@ -23,8 +22,8 @@ void	find_the_facing_of_ray(t_frame *frameData, int ray)
 
 bool is_wall(double tmp_x, double tmp_y, t_frame* frameData)
 {
-    int x = tmp_x / 32;
-    int y = tmp_y / 32;
+    int x = tmp_x / TILE_SIZE;
+    int y = tmp_y / TILE_SIZE;
     if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
     {
         return (false);
@@ -59,7 +58,7 @@ void drawray(t_frame* frameData, double ray_angle, double distance)
 	endY = frameData->player.y;
 	while (pixels)
 	{
-	    my_mlx_pixel_put(&frameData->mlxData, endX, endY, 0xcd6155);
+	    my_mlx_pixel_put(&frameData->mlxData, endX * 0.2, endY * 0.2, 0xcd6155);
 	    endX += deltaX;
 	    endY += deltaY;
 	    --pixels;
@@ -68,21 +67,21 @@ void drawray(t_frame* frameData, double ray_angle, double distance)
 
 void	find_hsteps(t_frame *frameData, t_vector_db *intercept, t_vector_db *step, int ray)
 {
-	intercept->y = (floor(frameData->player.y / 32)) * 32;
+	intercept->y = (floor(frameData->player.y / TILE_SIZE)) * TILE_SIZE;
 	
 	if (frameData->rays[ray].isray_facing_down)
 	{
 		// printf("player facing down\n");	
-		intercept->y += 32;
+		intercept->y += TILE_SIZE;
 	}
 	intercept->x = frameData->player.x + (intercept->y - frameData->player.y) / tan(frameData->rays[ray].ray_angle); 
 	
-	step->y = 32;
+	step->y = TILE_SIZE;
 	if (frameData->rays[ray].isray_facing_up)
 	{	
 		step->y *= -1;
 	}
-	step->x = 32 / tan(frameData->rays[ray].ray_angle);
+	step->x = TILE_SIZE / tan(frameData->rays[ray].ray_angle);
 	if (frameData->rays[ray].is_ray_facing_left && step->x > 0)
 		step->x *= -1;
 	if (frameData->rays[ray].isray_facing_right && step->x < 0)
@@ -110,11 +109,10 @@ double	Horz_rays(t_frame *frameData, int ray)
 	horz_touch.x = intercept.x;
 	horz_touch.y = intercept.y;
 
-	while (horz_touch.x >= 0 && horz_touch.x <= (frameData->data.map_width * 32) && horz_touch.y >= 0 && horz_touch.y <= (frameData->data.map_height * 32))
+	while (horz_touch.x >= 0 && horz_touch.x <= (frameData->data.map_width * TILE_SIZE) && horz_touch.y >= 0 && horz_touch.y <= (frameData->data.map_height * TILE_SIZE))
 	{
 		if(is_wall(horz_touch.x, check_y(frameData, horz_touch.y, ray), frameData))
 		{
-			printf("horz_touh->x %f horz_touh->y %f\n", floor(horz_touch.x / 32), floor(horz_touch.y / 32));
 			return (calculate_distance(player, horz_touch));		
 		}
 		else
