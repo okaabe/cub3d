@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 01:39:44 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/11 04:13:11 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:29:49 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ double	vert_rays(t_frame *frameData, int ray)
 	while (vert_touch.x >= 0 && vert_touch.x <= (frameData->data.map_width * 32) && vert_touch.y >= 0 && vert_touch.y <= (frameData->data.map_height * 32))
 	{
 		if(is_wall(check_x(frameData, vert_touch.x, ray), vert_touch.y, frameData))
-		{
+		{	
+			frameData->rays[ray].vert_touch = vert_touch;
 			return (calculate_distance(player, vert_touch));	
 		}
 		else

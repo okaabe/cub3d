@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/11 21:22:35 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:28:45 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	find_the_facing_of_ray(t_frame *frameData, int ray)
 {
-	printf("angle %f \n", frameData->rays[ray].ray_angle);
+	// printf("angle %f \n", frameData->rays[ray].ray_angle);
 	frameData->rays[ray].isray_facing_down = frameData->rays[ray].ray_angle > 0 && frameData->rays[ray].ray_angle < M_PI;
 	frameData->rays[ray].isray_facing_up = !frameData->rays[ray].isray_facing_down;
 	frameData->rays[ray].isray_facing_right = frameData->rays[ray].ray_angle < 0.5 * M_PI || frameData->rays[ray].ray_angle > 1.5 * M_PI;
@@ -114,7 +114,8 @@ double	Horz_rays(t_frame *frameData, int ray)
 	{
 		if(is_wall(horz_touch.x, check_y(frameData, horz_touch.y, ray), frameData))
 		{
-			printf("horz_touh->x %f horz_touh->y %f\n", floor(horz_touch.x / 32), floor(horz_touch.y / 32));
+			// printf("horz_touh->x %f horz_touh->y %f\n", floor(horz_touch.x / 32), floor(horz_touch.y / 32));
+			frameData->rays[ray].horz_touch = horz_touch;
 			return (calculate_distance(player, horz_touch));		
 		}
 		else

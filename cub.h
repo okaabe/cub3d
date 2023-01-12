@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/11 04:19:16 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:29:16 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define POSITION "N S E W"
 # define white " \n"
 # define FOV_ANGLE 60
-# define RAY_WIDTH 20
+# define RAY_WIDTH 5
 
 typedef struct s_vector_db
 {
@@ -69,6 +69,8 @@ typedef struct s_rays
 {
 	double	ray_angle;
 	double	distance;
+	t_vector_db	horz_touch;
+	t_vector_db	vert_touch;
 	bool	isray_facing_down;
 	bool	isray_facing_up;
 	bool	isray_facing_right;

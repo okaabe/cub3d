@@ -117,20 +117,32 @@ void get_distance(t_frame *framedata, t_vector_db distances, int ray)
 {
 	if (distances.x == 0)
 	{	
-		printf("i got : %f\n", distances.y);
+		// printf("i got : %f\n", distances.y);
+		framedata->rays[ray].horz_touch.x = 0;
+		framedata->rays[ray].horz_touch.y = 0;	
 		framedata->rays[ray].distance = distances.y;
 		return;
 	}
 	if (distances.y == 0)
 	{
-		printf("i got : %f\n", distances.x);	
+		// printf("i got : %f\n", distances.x);	
+		framedata->rays[ray].vert_touch.y = 0;
+		framedata->rays[ray].vert_touch.x = 0;
 		framedata->rays[ray].distance = distances.x;
 		return;
 	}
 	if (distances.x < distances.y)
+	{
+		framedata->rays[ray].horz_touch.y = 0;	
+		framedata->rays[ray].horz_touch.x = 0;
 		framedata->rays[ray].distance = distances.x;	
+	}
 	else
+	{
+		framedata->rays[ray].vert_touch.y = 0;	
+		framedata->rays[ray].vert_touch.x = 0;
 		framedata->rays[ray].distance = distances.y;
+	}
 }
 
 double	normalize(double ray_angle)
@@ -140,6 +152,48 @@ double	normalize(double ray_angle)
     else if (ray_angle > M_PI * 2)
         ray_angle -= (M_PI * 2);
 	return (ray_angle);
+}
+
+t_vector_db	get_the_touch(t_vector_db horz_touch, t_vector_db vert_touch)
+{
+	if (horz_touch.x == 0 && horz_touch.y == 0) 
+	{
+		return(vert_touch);
+	}
+	else if (vert_touch.x == 0 && vert_touch.y == 0)
+	{
+		return(horz_touch);	
+	}
+}
+
+void draw_rect(t_frame *frameData, int ray)
+{
+	t_vector_db touch;
+	t_vector top_left;
+	t_vector bottom_right;
+	int i;
+	int j;
+
+	touch =	frameData->rays[ray].horz_touch; 
+	// get_the_touch(frameData->rays[ray].horz_touch, frameData->rays[ray].vert_touch);
+	printf("touch x %f touch y %f\n", touch.x / 32, touch.y / 32);
+	top_left.x = (touch.x / 32);
+	top_left.y = (touch.y / 32);
+	bottom_right.x = (touch.x) + 31; 
+	bottom_right.y = (touch.y) + 31;
+
+	printf("bt_right x %d tbt_right y %d\n", bottom_right.x, bottom_right.y);
+	i = top_left.x * 32;
+	while (i < top_left.x + 32)
+	{
+		j = top_left.y;
+		while (j < top_left.y + 32)
+		{
+			my_mlx_pixel_put(&frameData->mlxData, i, j, 0x00ff00);
+			j++;
+		}
+		i++;
+	}
 }
 
 int castingRays(t_frame* frameData)
@@ -152,17 +206,18 @@ int castingRays(t_frame* frameData)
 	i = 0;
 	rays_numbers = frameData->N_rays;
 	// printf("%f\n", rays_numbers);
-	printf("rotation : %f\n", frameData->player.rotation_angle);
+	// printf("rotation : %f\n", frameData->player.rotation_angle);
 	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
 	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
 	while (i < rays_numbers)
 	{
 		frameData->rays[i].ray_angle = normalize(ray_angle);
 		find_the_facing_of_ray(frameData, i);
-		check_facing(frameData, i);
+		// check_facing(frameData, i);
 		distances.x = Horz_rays(frameData, i);
 		distances.y = vert_rays(frameData, i);
-		get_distance(frameData,distances,i);
+		get_distance(frameData,distances, i);
+		// draw_rect(frameData, i);
 		// printf("horize dist : %f\n", distances.x);
 		// printf("vertical dist : %f\n", distances.y);
 		drawray(frameData, ray_angle, frameData->rays[i].distance);
@@ -202,9 +257,36 @@ void frameGenerator(t_frame *frameData)
 
 void isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData)
 {
-    int x = tmp_x / 32;
-    int y = tmp_y / 32;
-    if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
+    int x; 
+    int y;
+	printf("x : %d y : %d\n", x, y);
+    
+	
+	double endX = tmp_x;
+	double endY = tmp_y;
+	double deltaX = endX - frameData->player.x;
+	double deltaY = endY - frameData->player.y;
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	deltaX /= pixels;
+	deltaY /= pixels;
+	endX = frameData->player.x;
+	endY = frameData->player.y;
+	while (pixels)
+	{
+	    endX += deltaX;
+	    endY += deltaY;
+		y = endY / 32;
+		x = endX / 32;
+		if (frameData->data.map[y][x] == '1' && tmp_x != -1 && tmp_y != -1)
+    	{
+        	return ;
+    	}
+	    --pixels;
+	}
+
+	x = tmp_x / 32;
+	y = tmp_y / 32;
+	if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
     {
         frameData->player.x = tmp_x;
         frameData->player.y = tmp_y;
