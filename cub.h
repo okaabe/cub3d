@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/12 00:29:16 by aamoussa         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/12 16:56:09 by ahamdy           ###   ########.fr       */
+>>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +27,15 @@
 # define POSITION "N S E W"
 # define white " \n"
 # define FOV_ANGLE 60
+<<<<<<< HEAD
 # define RAY_WIDTH 5
+=======
+# define RAY_WIDTH 20
+# define MINI_MAP_SIZE 0.2
+# define MAP_WIDTH 
+# define MAP_HEIGHT 
+# define TILE_SIZE 32
+>>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 
 typedef struct s_vector_db
 {

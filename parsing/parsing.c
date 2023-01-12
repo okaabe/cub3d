@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/11 23:45:41 by aamoussa         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/12 16:44:15 by ahamdy           ###   ########.fr       */
+>>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +96,7 @@ void 	fill_map(t_list **map, t_map_data *data)
 	int len;
 	
 	data->map_width = get_map_len(*map);
-	printf("%d :::\n", data->map_width);
+	//data->map_width = 1920 / 32;
 	len = ft_lstsize(*map); 
 	i = 0;
 	data->map = malloc(len * (sizeof(char **) + 1));
