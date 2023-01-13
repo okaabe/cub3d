@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/12 00:29:16 by aamoussa         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/12 16:56:09 by ahamdy           ###   ########.fr       */
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
+/*   Updated: 2023/01/13 02:11:25 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +23,11 @@
 # define POSITION "N S E W"
 # define white " \n"
 # define FOV_ANGLE 60
-<<<<<<< HEAD
-# define RAY_WIDTH 5
-=======
 # define RAY_WIDTH 20
 # define MINI_MAP_SIZE 0.2
-# define MAP_WIDTH 
-# define MAP_HEIGHT 
+# define MAP_WIDTH 1366
+# define MAP_HEIGHT 768
 # define TILE_SIZE 32
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 
 typedef struct s_vector_db
 {
@@ -81,12 +73,12 @@ typedef struct s_rays
 {
 	double	ray_angle;
 	double	distance;
-	t_vector_db	horz_touch;
-	t_vector_db	vert_touch;
 	bool	isray_facing_down;
 	bool	isray_facing_up;
 	bool	isray_facing_right;
 	bool	is_ray_facing_left;
+	bool	vert_hit;
+	bool	hor_hit;
 } t_rays;
 
 // mlx struct

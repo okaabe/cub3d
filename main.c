@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/12 16:49:25 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/12 19:21:13 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	frameData.player.y = (frameData.data.player_position.y * TILE_SIZE) + 16;
 	frameData.player.rotation_angle = (M_PI / 2);
 	frameData.Fov = FOV_ANGLE * (M_PI / 180);
-	frameData.N_rays = (frameData.data.map_width * TILE_SIZE);
+	frameData.N_rays = MAP_WIDTH;
 	// initialize the mlx data 
 	initializeMlx(&frameData.mlxData, &frameData.data);
 	// render 2d map and update player position (as well as the player direction not yet)

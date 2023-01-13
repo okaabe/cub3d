@@ -6,11 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 01:39:44 by aamoussa          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/12 00:29:49 by aamoussa         ###   ########.fr       */
-=======
 /*   Updated: 2023/01/12 16:50:06 by ahamdy           ###   ########.fr       */
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +56,7 @@ double	vert_rays(t_frame *frameData, int ray)
 	while (vert_touch.x >= 0 && vert_touch.x <= (frameData->data.map_width * TILE_SIZE) && vert_touch.y >= 0 && vert_touch.y <= (frameData->data.map_height * TILE_SIZE))
 	{
 		if(is_wall(check_x(frameData, vert_touch.x, ray), vert_touch.y, frameData))
-		{	
-			frameData->rays[ray].vert_touch = vert_touch;
+		{
 			return (calculate_distance(player, vert_touch));	
 		}
 		else

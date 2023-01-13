@@ -1,8 +1,6 @@
 #include "cub.h"
 
 
-#define window_width 15 * 32
-
 
 // char map[11][15] = {
 //             {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
@@ -21,7 +19,16 @@
 
 
 
+// put_pixel in frame
+// void	get_mlx_pixel_put(t_data *data, int x, int y, int color)
+// {
+// 	char	*dst;
 
+// 	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+// 		return ;
+// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// 	*(unsigned int*)dst = color;
+// }
 
 
 // put_pixel in frame
@@ -29,7 +36,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || x >= 34 * TILE_SIZE || y < 0 || y >= 14 * TILE_SIZE)
+	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
 		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -39,8 +46,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 void initializeMlx(t_data *mlx_data, t_map_data *map)
 {
 	mlx_data->mlx = mlx_init();
-	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE, "Hello world!");
-	mlx_data->img = mlx_new_image(mlx_data->mlx, map->map_width * TILE_SIZE, map->map_height * TILE_SIZE);
+	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, MAP_WIDTH,  MAP_HEIGHT, "Hello world!");
+	mlx_data->img = mlx_new_image(mlx_data->mlx, MAP_WIDTH, MAP_HEIGHT);
 	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel, &mlx_data->line_length,
 						&mlx_data->endian);	
 }
@@ -118,38 +125,30 @@ void get_distance(t_frame *framedata, t_vector_db distances, int ray)
 {
 	if (distances.x == 0)
 	{	
-<<<<<<< HEAD
-		// printf("i got : %f\n", distances.y);
-		framedata->rays[ray].horz_touch.x = 0;
-		framedata->rays[ray].horz_touch.y = 0;	
-=======
 		//printf("i got : %f\n", distances.y);
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
+		framedata->rays[ray].vert_hit = true;
+		framedata->rays[ray].hor_hit = false;
 		framedata->rays[ray].distance = distances.y;
 		return;
 	}
 	if (distances.y == 0)
 	{
-<<<<<<< HEAD
-		// printf("i got : %f\n", distances.x);	
-		framedata->rays[ray].vert_touch.y = 0;
-		framedata->rays[ray].vert_touch.x = 0;
-=======
 		//printf("i got : %f\n", distances.x);	
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
+		framedata->rays[ray].hor_hit = true;
+		framedata->rays[ray].vert_hit = false;
 		framedata->rays[ray].distance = distances.x;
 		return;
 	}
 	if (distances.x < distances.y)
 	{
-		framedata->rays[ray].horz_touch.y = 0;	
-		framedata->rays[ray].horz_touch.x = 0;
-		framedata->rays[ray].distance = distances.x;	
+			framedata->rays[ray].vert_hit = false;
+			framedata->rays[ray].hor_hit = true;
+			framedata->rays[ray].distance = distances.x;	
 	}
 	else
 	{
-		framedata->rays[ray].vert_touch.y = 0;	
-		framedata->rays[ray].vert_touch.x = 0;
+		framedata->rays[ray].hor_hit = false;	
+		framedata->rays[ray].vert_hit = true;
 		framedata->rays[ray].distance = distances.y;
 	}
 }
@@ -163,46 +162,6 @@ double	normalize(double ray_angle)
 	return (ray_angle);
 }
 
-<<<<<<< HEAD
-t_vector_db	get_the_touch(t_vector_db horz_touch, t_vector_db vert_touch)
-{
-	if (horz_touch.x == 0 && horz_touch.y == 0) 
-	{
-		return(vert_touch);
-	}
-	else if (vert_touch.x == 0 && vert_touch.y == 0)
-	{
-		return(horz_touch);	
-	}
-}
-
-void draw_rect(t_frame *frameData, int ray)
-{
-	t_vector_db touch;
-	t_vector top_left;
-	t_vector bottom_right;
-	int i;
-	int j;
-
-	touch =	frameData->rays[ray].horz_touch; 
-	// get_the_touch(frameData->rays[ray].horz_touch, frameData->rays[ray].vert_touch);
-	printf("touch x %f touch y %f\n", touch.x / 32, touch.y / 32);
-	top_left.x = (touch.x / 32);
-	top_left.y = (touch.y / 32);
-	bottom_right.x = (touch.x) + 31; 
-	bottom_right.y = (touch.y) + 31;
-
-	printf("bt_right x %d tbt_right y %d\n", bottom_right.x, bottom_right.y);
-	i = top_left.x * 32;
-	while (i < top_left.x + 32)
-	{
-		j = top_left.y;
-		while (j < top_left.y + 32)
-		{
-			my_mlx_pixel_put(&frameData->mlxData, i, j, 0x00ff00);
-			j++;
-		}
-=======
 // void    draw_rect(t_frame *frameData, double wallheight, double projection_plane, int index)
 // {
 //     int finish = (frameData->data.map_height * 32 / 2) + (wallheight / 2);
@@ -224,17 +183,21 @@ void draw_rect(t_frame *frameData, int ray)
 void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, int x_index)
 {
 	int y_index;
+	// printf("x : %d\n", x_index);
 
-	int end = (frameData->data.map_height * TILE_SIZE / 2)  + (wallHeight / 2);
+	int end = (MAP_HEIGHT / 2)  + (wallHeight / 2);
 	// y_index = fabs(((frameData->data.map_height * 32) / 2 ) - (wallHeight / 2));
-	y_index = ((frameData->data.map_height * TILE_SIZE) / 2 ) - (wallHeight / 2);
+	y_index = ((MAP_HEIGHT) / 2 ) - (wallHeight / 2);
 	if(y_index < 0)
 		y_index = 0;
-	if (end > frameData->data.map_height * TILE_SIZE)
-		end = frameData->data.map_height * TILE_SIZE;
+	if (end > MAP_HEIGHT)
+		end = MAP_HEIGHT;
 	while (y_index <  end)
 	{
-		my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xfdfefe);
+		if (frameData->rays[x_index].hor_hit)
+			my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xFFFFFF);
+		else
+			my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xD4D4D4);	
 		y_index++;
 	}	
 }
@@ -254,10 +217,9 @@ void renderWall(t_frame* frameData)
 		// printf("%f\n", frameData->rays[0].distance);
 		// printf("%f\n", ray_distance);
 		// exit(0);
-		projectionDistance = ((frameData->data.map_width * TILE_SIZE) / 2) / tan(frameData->Fov / 2);
+		projectionDistance = ((MAP_WIDTH) / 2) / tan(frameData->Fov / 2);
 		wallHeight = (TILE_SIZE / ray_distance) * projectionDistance;
 		drawWall(frameData, wallHeight, projectionDistance, i);
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 		i++;
 	}
 }
@@ -271,32 +233,23 @@ int castingRays(t_frame* frameData)
 	
 	i = 0;
 	rays_numbers = frameData->N_rays;
-<<<<<<< HEAD
-	// printf("%f\n", rays_numbers);
-	// printf("rotation : %f\n", frameData->player.rotation_angle);
-=======
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
 	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
 	while (i < rays_numbers)
 	{
 		frameData->rays[i].ray_angle = normalize(ray_angle);
 		find_the_facing_of_ray(frameData, i);
-<<<<<<< HEAD
-		// check_facing(frameData, i);
-=======
 		//check_facing(frameData, i);
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
 		distances.x = Horz_rays(frameData, i);
 		distances.y = vert_rays(frameData, i);
-		get_distance(frameData,distances, i);
-		// draw_rect(frameData, i);
+		get_distance(frameData,distances,i);
 		// printf("horize dist : %f\n", distances.x);
 		// printf("vertical dist : %f\n", distances.y);
 		drawray(frameData, ray_angle, frameData->rays[i].distance);
 		ray_angle += frameData->Fov / frameData->N_rays;
 		i++;
 	}
+	return (0);
 }
 
 void playerDirection(t_frame* frameData)
@@ -322,13 +275,14 @@ void playerDirection(t_frame* frameData)
 void frameGenerator(t_frame *frameData)
 {
 	mlx_destroy_image(frameData->mlxData.mlx, frameData->mlxData.img);
-	frameData->mlxData.img = mlx_new_image(frameData->mlxData.mlx, frameData->data.map_width * TILE_SIZE, frameData->data.map_height * TILE_SIZE);
+	frameData->mlxData.img = mlx_new_image(frameData->mlxData.mlx, MAP_WIDTH, MAP_HEIGHT);
 	frameData->mlxData.addr = mlx_get_data_addr(frameData->mlxData.img, &frameData->mlxData.bits_per_pixel, &frameData->mlxData.line_length,
 						&frameData->mlxData.endian);	
 	mlx_clear_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win);
 	castingRays(frameData);
 	renderWall(frameData);
 	draw2Dmap(&(frameData->mlxData), &frameData->data);
+	castingRays(frameData);
 	updatePlayerPosition(frameData);
 	// playerDirection(frameData);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
@@ -336,42 +290,9 @@ void frameGenerator(t_frame *frameData)
 
 void isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData)
 {
-<<<<<<< HEAD
-    int x; 
-    int y;
-	printf("x : %d y : %d\n", x, y);
-    
-	
-	double endX = tmp_x;
-	double endY = tmp_y;
-	double deltaX = endX - frameData->player.x;
-	double deltaY = endY - frameData->player.y;
-	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	deltaX /= pixels;
-	deltaY /= pixels;
-	endX = frameData->player.x;
-	endY = frameData->player.y;
-	while (pixels)
-	{
-	    endX += deltaX;
-	    endY += deltaY;
-		y = endY / 32;
-		x = endX / 32;
-		if (frameData->data.map[y][x] == '1' && tmp_x != -1 && tmp_y != -1)
-    	{
-        	return ;
-    	}
-	    --pixels;
-	}
-
-	x = tmp_x / 32;
-	y = tmp_y / 32;
-	if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
-=======
     int x = tmp_x / TILE_SIZE;
     int y = tmp_y / TILE_SIZE;
     if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
->>>>>>> 8c3a834e1a3ae16234e04392fc4f1860d35f4273
     {
         frameData->player.x = tmp_x;
         frameData->player.y = tmp_y;
