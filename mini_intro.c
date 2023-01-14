@@ -1,7 +1,5 @@
 #include "cub.h"
 
-
-
 // char map[11][15] = {
 //             {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
 //             {'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
@@ -41,6 +39,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
+
 
 // initialize the mlx struct
 void initializeMlx(t_data *mlx_data, t_map_data *map)
@@ -180,46 +179,91 @@ double	normalize(double ray_angle)
 //     }
 // }
 
-void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, int x_index)
+// void put_pixel_from_xpm()
+// {
+// 	char	*dst;
+
+// 	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+// 		return ;
+// 	dst = framedata->test_texture.img_xpm + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// 	return  ((unsigned int*)dst);
+// }
+
+unsigned int	get_pixel_color(t_data *data, int x, int y)
 {
+	char	*dst;
+
+	// if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+	// 	return ;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	return (*(unsigned int*)dst);
+}
+
+
+unsigned int	put_texture(t_frame* frameData, int x_frame, int y_frame, double wall_height)
+{
+	int x;
+	int	y;
+	unsigned int color;		
+	char *dst;
+
+	 x = x_frame % frameData->test_texture.width;
+	y = y_frame % frameData->test_texture.height;
+
+	// if (frameData->rays->hor_hit)
+	// {
+
+	// }
+	color = get_pixel_color(&frameData->test_texture.mlxtexture, x, y);
+	return (color);
+}
+
+void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, int x_index, int x_txr)
+{
+	double y_ratio = frameData->test_texture.height / wallHeight;
+	int y_txr;
 	int y_index;
-	// printf("x : %d\n", x_index);
+	unsigned int color;
 
 	int end = (MAP_HEIGHT / 2)  + (wallHeight / 2);
-	// y_index = fabs(((frameData->data.map_height * 32) / 2 ) - (wallHeight / 2));
 	y_index = ((MAP_HEIGHT) / 2 ) - (wallHeight / 2);
+	int y_index_init = y_index;
 	if(y_index < 0)
 		y_index = 0;
 	if (end > MAP_HEIGHT)
 		end = MAP_HEIGHT;
 	while (y_index <  end)
 	{
-		if (frameData->rays[x_index].hor_hit)
-			my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xFFFFFF);
-		else
-			my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, 0xD4D4D4);	
+		y_txr = y_ratio * (y_index - y_index_init);
+		color = put_texture(frameData, x_txr, y_txr, wallHeight);
+		// if (frameData->rays[x_index].hor_hit)
+		// 	my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, color);
+		// else
+		my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, color);
 		y_index++;
 	}	
 }
 
 void renderWall(t_frame* frameData)
 {
+	double x_ratio = frameData->test_texture.width / (double)TILE_SIZE;
+	int x_txr;
 	double wallHeight;
 	double projectionDistance;
 	int i;
 	double	ray_distance;
 
 	int raynumber = frameData->N_rays;
+
+
 	i = 0;
 	while (i < raynumber)
 	{
+		x_txr = x_ratio * ((frameData->rays[i].hor_hit) ? ((int)frameData->rays[i].x % TILE_SIZE) : ((int)frameData->rays[i].y % TILE_SIZE));
 		ray_distance = frameData->rays[i].distance * cos(frameData->rays[i].ray_angle - frameData->player.rotation_angle);
-		// printf("%f\n", frameData->rays[0].distance);
-		// printf("%f\n", ray_distance);
-		// exit(0);
 		projectionDistance = ((MAP_WIDTH) / 2) / tan(frameData->Fov / 2);
 		wallHeight = (TILE_SIZE / ray_distance) * projectionDistance;
-		drawWall(frameData, wallHeight, projectionDistance, i);
+		drawWall(frameData, wallHeight, projectionDistance, i, x_txr);
 		i++;
 	}
 }
@@ -243,9 +287,7 @@ int castingRays(t_frame* frameData)
 		distances.x = Horz_rays(frameData, i);
 		distances.y = vert_rays(frameData, i);
 		get_distance(frameData,distances,i);
-		// printf("horize dist : %f\n", distances.x);
-		// printf("vertical dist : %f\n", distances.y);
-		drawray(frameData, ray_angle, frameData->rays[i].distance);
+		drawray(frameData, ray_angle, frameData->rays[i].distance, i);
 		ray_angle += frameData->Fov / frameData->N_rays;
 		i++;
 	}

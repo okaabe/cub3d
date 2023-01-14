@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/12 16:49:03 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/13 20:17:15 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ double calculate_distance(t_vector_db first, t_vector_db sec)
 	return (sqrt(sum_x + sum_y));
 }
 
-void drawray(t_frame* frameData, double ray_angle, double distance)
+void drawray(t_frame* frameData, double ray_angle, double distance, int i)
 {
 	t_vector_db player;
 
 	double endX = (frameData->player.x) + (cos(ray_angle) * distance);
 	double endY = frameData->player.y + (sin(ray_angle) * distance);
+	frameData->rays[i].x = endX;
+	frameData->rays[i].y = endY;
 	double deltaX = endX - frameData->player.x;
 	double deltaY = endY - frameData->player.y;
 	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));

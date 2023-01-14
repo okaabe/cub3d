@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/13 13:07:19 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/13 20:17:51 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_vector_db
 	double x;
 	double y;
 }	t_vector_db;
-	
+
 typedef struct s_vector
 {
 	int	x;
@@ -71,6 +71,8 @@ typedef struct s_player
 
 typedef struct s_rays
 {
+	double x;
+	double y;
 	double	ray_angle;
 	double	distance;
 	bool	isray_facing_down;
@@ -93,15 +95,23 @@ typedef struct	s_data {
 }				t_data;
 
 // both struct as dependencies for frame generator in mlx_loop_hook
+typedef struct s_textures
+{
+	int	width;
+	int height;
+	t_data mlxtexture;
+} t_texture;
 typedef struct s_frame_dependencies
 {
 	t_player	player;
 	t_data		mlxData;
 	t_map_data	data;
 	double		Fov;
+	t_texture	test_texture;
 	double		N_rays;	
 	t_rays 		*rays;
 }	t_frame;
+
 
 t_map_data	get_map(char *file);
 void		frameGenerator(t_frame *frameData);
@@ -114,6 +124,6 @@ double		Horz_rays(t_frame *frameData, int ray);
 double		vert_rays(t_frame *frameData, int ray);
 double		calculate_distance(t_vector_db first, t_vector_db sec);
 bool		is_wall(double tmp_x, double tmp_y, t_frame* frameData);
-void		drawray(t_frame* frameData, double ray_angle, double distance);
+void		drawray(t_frame* frameData, double ray_angle, double distance, int i);
 
 #endif

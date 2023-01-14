@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/12 19:21:13 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/13 21:02:24 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	main(int argc, char **argv)
 	// initialize the mlx data 
 	initializeMlx(&frameData.mlxData, &frameData.data);
 	// render 2d map and update player position (as well as the player direction not yet)
+	frameData.test_texture.mlxtexture.img = mlx_xpm_file_to_image(
+			frameData.mlxData.mlx,  "./textures/west.xpm" ,&frameData.test_texture.width, &frameData.test_texture.height);
+	frameData.test_texture.mlxtexture.addr = mlx_get_data_addr(frameData.test_texture.mlxtexture.img, 
+						&frameData.test_texture.mlxtexture.bits_per_pixel, &frameData.test_texture.mlxtexture.line_length, 
+						&frameData.test_texture.mlxtexture.endian);
 	frameGenerator(&frameData);
 	// detect the player moves
 	mlx_hook(frameData.mlxData.mlx_win, 2, 0, player_moves, &frameData);
