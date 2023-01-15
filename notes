@@ -11,3 +11,5 @@ y = y0 + r * sin(theta)
  N_rays
 
  t = o / a .    t * o = a / 1 .    
+
+check the textures path(valid path)

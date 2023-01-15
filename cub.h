@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/13 20:17:51 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 09:49:38 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@
 # define MAP_WIDTH 1366
 # define MAP_HEIGHT 768
 # define TILE_SIZE 32
+# define NORTH 0
+# define EAST (M_PI / 2)
+# define SOUTH M_PI
+# define WEST (M_PI + (M_PI / 2))
+# define N 3
+# define E 1
+# define S 2
+# define W 0
 
 typedef struct s_vector_db
 {
@@ -44,12 +52,13 @@ typedef struct s_vector
 
 typedef struct s_map_data
 {
-	char		*so;
-	char		*no;
-	char		*we;
-	char		*ea;
-	char		*f;
-	char		*c;
+	// char		*so;
+	// char		*no;
+	// char		*we;
+	// char		*ea;
+	char **direction;
+	int			f;
+	int			c;
 	t_vector	player_position;
 	char		**map;
 	int			map_width;
@@ -99,15 +108,17 @@ typedef struct s_textures
 {
 	int	width;
 	int height;
+	double x_ratio;
 	t_data mlxtexture;
 } t_texture;
+
 typedef struct s_frame_dependencies
 {
 	t_player	player;
 	t_data		mlxData;
 	t_map_data	data;
 	double		Fov;
-	t_texture	test_texture;
+	t_texture	*textures;
 	double		N_rays;	
 	t_rays 		*rays;
 }	t_frame;
