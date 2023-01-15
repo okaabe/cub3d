@@ -6,12 +6,40 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/14 23:44:54 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:56:14 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+void set_textures(t_frame* frame_data)
+{
+	int index;
+
+	index = 0;
+	frame_data->textures = (t_texture *)malloc(sizeof(t_texture ) * 4);
+	while (index <= 3)
+	{
+	frame_data->textures[index].mlxtexture.img = mlx_xpm_file_to_image(frame_data->mlxData.mlx, frame_data->data.direction[index],
+	&frame_data->textures[index].width, &frame_data->textures[index].height);
+		frame_data->textures[index].mlxtexture.addr = mlx_get_data_addr(frame_data->textures[index].mlxtexture.img,
+						&frame_data->textures[index].mlxtexture.bits_per_pixel, &frame_data->textures[index].mlxtexture.line_length, 
+						&frame_data->textures[index].mlxtexture.endian);
+			frame_data->textures[index].x_ratio = frame_data->textures[index].width / (double)TILE_SIZE;
+		index++;
+	}
+}
+
+double get_player_direction(char direction)
+{
+	if (direction == 'N')
+		return(NORTH);
+	else if (direction == 'E')
+		return (EAST);
+	else if (direction == 'W')
+		return (WEST);
+	return (SOUTH);
+}
 int	main(int argc, char **argv)
 {
 	t_frame		frameData;
@@ -19,17 +47,14 @@ int	main(int argc, char **argv)
 	frameData.data = get_map(argv[1]);
 	frameData.player.x = (frameData.data.player_position.x * TILE_SIZE) + 16;
 	frameData.player.y = (frameData.data.player_position.y * TILE_SIZE) + 16;
-	frameData.player.rotation_angle = (M_PI / 2);
+	frameData.player.rotation_angle = get_player_direction(frameData.data.player_position.orientation);
 	frameData.Fov = FOV_ANGLE * (M_PI / 180);
 	frameData.N_rays = MAP_WIDTH;
+	
+	printf("%d\n", frameData.data.f);
 	// initialize the mlx data 
 	initializeMlx(&frameData.mlxData, &frameData.data);
-	// render 2d map and update player position (as well as the player direction not yet)
-	frameData.test_texture.mlxtexture.img = mlx_xpm_file_to_image(
-			frameData.mlxData.mlx,  "./textures/west.xpm" ,&frameData.test_texture.width, &frameData.test_texture.height);
-	frameData.test_texture.mlxtexture.addr = mlx_get_data_addr(frameData.test_texture.mlxtexture.img, 
-						&frameData.test_texture.mlxtexture.bits_per_pixel, &frameData.test_texture.mlxtexture.line_length, 
-						&frameData.test_texture.mlxtexture.endian);
+	set_textures(&frameData);
 	frameGenerator(&frameData);
 	// detect the player moves
 	mlx_hook(frameData.mlxData.mlx_win, 2, 0, player_moves, &frameData);

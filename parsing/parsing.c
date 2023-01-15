@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/12 16:44:15 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 09:54:17 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,20 +122,40 @@ bool check_space(char *str)
 	return (true);
 }
 
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+
+int get_color(char *trgb)
+{
+	// free
+	char **splited_color = ft_split(trgb, ',');
+
+	return (create_trgb(0, ft_atoi(splited_color[0]), ft_atoi(splited_color[1]), ft_atoi(splited_color[2])));
+}
+
 void	store_it(t_map_data *data, t_list **map, char *str)
 {
+	char **splited_path;
+	char *txr_path;
+	// double free
+	splited_path = ft_split((*map)->content, ' ');
+	txr_path = ft_substr(splited_path[1], 0, ft_strlen(splited_path[1]) - 1);
 	if (!ft_strncmp(str, "NO", ft_strlen(str)))
-		data->no = (*map)->content;
+		data->direction[N] = txr_path;
 	if (!ft_strncmp(str, "SO", ft_strlen(str)))
-		data->so = (*map)->content;
+		data->direction[S] = txr_path;
 	if (!ft_strncmp(str, "WE", ft_strlen(str)))
-		data->we = (*map)->content;
+		data->direction[W] = txr_path;
 	if (!ft_strncmp(str, "EA", ft_strlen(str)))
-		data->ea = (*map)->content;
+		data->direction[E] = txr_path;
 	if (!ft_strncmp(str, "F", ft_strlen(str)))
-		data->f = (*map)->content;
+		data->f = get_color(splited_path[1]); //data->f = splited_path[1];
 	if (!ft_strncmp(str, "C", ft_strlen(str)))
-		data->c = (*map)->content;
+		data->c = get_color(splited_path[1]);
+	// free_splited_path
 }
 
 void	get_textures(t_list **map, t_map_data *data)
@@ -145,6 +165,7 @@ void	get_textures(t_list **map, t_map_data *data)
 	int		j;
 	char	*content;
 
+	data->direction = malloc(sizeof(char *) * 4);
 	content = NULL;
 	i = 0;
 	text = ft_split(TEXTURES, ' ');
@@ -168,7 +189,7 @@ void	get_textures(t_list **map, t_map_data *data)
 		store_it(data, map, text[j]);
 		*map = (*map)->next;
 	}
-	if (!data->ea || !data->so || !data->we || !data->f || !data->no || !data->c)
+	if (!data->direction[0] || !data->direction[1] || !data->direction[2] || !data->f || !data->direction[3] || !data->c)
 	{	
 		printf("Error : Missing Texture\n");
 		exit(1);
@@ -209,7 +230,6 @@ t_map_data get_map(char *file)
 	get_textures(&map, &data);
 	fill_map(&map, &data);
 	get_player_postion(&data);
-	int i = 0;
 	return data;
 	// check_map_walls(data.map);
 }
