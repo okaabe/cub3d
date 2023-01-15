@@ -13,7 +13,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 
 // initialize the mlx struct
-void initializeMlx(t_data *mlx_data, t_map_data *map)
+void initializeMlx(t_data *mlx_data)
 {
 	mlx_data->mlx = mlx_init();
 	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, MAP_WIDTH,  MAP_HEIGHT, "Hello world!");
@@ -136,7 +136,7 @@ unsigned int	get_pixel_color(t_data *data, int x, int y)
 unsigned int	put_texture(t_texture * txr, int x_frame, int y_frame)
 {
 	unsigned int color;		
-	char *dst;
+	//char *dst;
 
 	color = get_pixel_color(&txr->mlxtexture, x_frame, y_frame);
 	return (color);

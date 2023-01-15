@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/15 09:54:53 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 17:18:12 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 {
 	t_frame		frameData;
 
+	(void)argc;
 	frameData.data = get_map(argv[1]);
 	frameData.player.x = (frameData.data.player_position.x * TILE_SIZE) + 16;
 	frameData.player.y = (frameData.data.player_position.y * TILE_SIZE) + 16;
@@ -53,7 +54,7 @@ int	main(int argc, char **argv)
 	
 	printf("%d\n", frameData.data.f);
 	// initialize the mlx data 
-	initializeMlx(&frameData.mlxData, &frameData.data);
+	initializeMlx(&frameData.mlxData);
 	set_textures(&frameData);
 	frameGenerator(&frameData);
 	// detect the player moves
