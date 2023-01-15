@@ -10,4 +10,6 @@ y = y0 + r * sin(theta)
  Fov
  N_rays
 
- t = o / a .    t * o = a / 1 .    
+ t = o / a .    t * o = a / 1 .   
+
+ 206 189 

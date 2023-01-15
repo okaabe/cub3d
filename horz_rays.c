@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   horz_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/13 20:17:15 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 04:20:54 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void drawray(t_frame* frameData, double ray_angle, double distance, int i)
 	deltaY /= pixels;
 	endX = frameData->player.x;
 	endY = frameData->player.y;
-	while (pixels)
-	{
-	    my_mlx_pixel_put(&frameData->mlxData, endX * 0.2, endY * 0.2, 0xcd6155);
-	    endX += deltaX;
-	    endY += deltaY;
-	    --pixels;
-	}
+	// while (pixels)
+	// {
+	//     my_mlx_pixel_put(&frameData->mlxData, endX * MINI_MAP_SIZE, endY * MINI_MAP_SIZE, 0xcd6155);
+	//     endX += deltaX;
+	//     endY += deltaY;
+	//     --pixels;
+	// }
 }
 
 void	find_hsteps(t_frame *frameData, t_vector_db *intercept, t_vector_db *step, int ray)
@@ -115,7 +115,8 @@ double	Horz_rays(t_frame *frameData, int ray)
 	{
 		if(is_wall(horz_touch.x, check_y(frameData, horz_touch.y, ray), frameData))
 		{
-			return (calculate_distance(player, horz_touch));		
+			
+			return (calculate_distance(player, horz_touch));	
 		}
 		else
 		{

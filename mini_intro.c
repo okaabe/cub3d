@@ -40,50 +40,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-
-// initialize the mlx struct
-void initializeMlx(t_data *mlx_data, t_map_data *map)
-{
-	mlx_data->mlx = mlx_init();
-	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, MAP_WIDTH,  MAP_HEIGHT, "Hello world!");
-	mlx_data->img = mlx_new_image(mlx_data->mlx, MAP_WIDTH, MAP_HEIGHT);
-	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel, &mlx_data->line_length,
-						&mlx_data->endian);	
-}
-
-
-void draw2Dmap(t_data * mlxData, t_map_data	*map)
-{
-	int totalX = -1;
-	int totalY = -1;
-	int y_index = 0;
-	int x_index = 0;
-	
-	while (++totalY < map->map_height)
-	{
-		totalX = -1;
-		while (++totalX < map->map_width)
-		{
-			y_index = (totalY * TILE_SIZE) - 1;
-			while (++y_index < ((totalY + 1) * TILE_SIZE))
-			{
-				x_index = (totalX * TILE_SIZE) - 1;
-				while (++x_index < ((totalX + 1) * TILE_SIZE))
-				{
-					if (map->map[totalY][totalX] == '1')
-						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE , y_index * MINI_MAP_SIZE, 0x17202a);
-					else if (map->map[totalY][totalX] == ' ')
-						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE, y_index * MINI_MAP_SIZE, 0x2c0545);	
-					else
-						my_mlx_pixel_put(mlxData, x_index * MINI_MAP_SIZE , y_index * MINI_MAP_SIZE, 0xfdfefe);
-				}
-			}
-	 	}
-	}	
-}
-
-
-void updatePlayerPosition(t_frame *frameData)
+void updatePlayerPosition(t_frame *frameData, double player_x, double player_y)
 {
 	int y_index;
 	int x_index;
@@ -92,8 +49,8 @@ void updatePlayerPosition(t_frame *frameData)
 	int	x;
 	int y;
 	
-	y_index = frameData->player.y;
-	x_index = frameData->player.x; 
+	y_index = player_y;
+	x_index = player_x; 
 	while (r)
 	{
 		theta = 0;
@@ -107,6 +64,125 @@ void updatePlayerPosition(t_frame *frameData)
 	r--;
 	}
 }
+
+// initialize the mlx struct
+void initializeMlx(t_data *mlx_data, t_map_data *map)
+{
+	mlx_data->mlx = mlx_init();
+	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx, MAP_WIDTH,  MAP_HEIGHT, "Hello world!");
+	mlx_data->img = mlx_new_image(mlx_data->mlx, MAP_WIDTH, MAP_HEIGHT);
+	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel, &mlx_data->line_length,
+						&mlx_data->endian);	
+}
+
+
+bool check_point(int x, int y, int radius, t_frame *framedata)
+{
+	t_vector_db first;
+	t_vector_db sec;
+	double		distance;
+	first.x = framedata->player.x * MINI_MAP_SIZE;
+	first.y = framedata->player.y * MINI_MAP_SIZE;
+	sec.x = x;
+	sec.y = y;
+	distance = calculate_distance(first, sec);
+	return (distance < radius);
+}
+
+bool check(t_frame *framedata,int x, int y)
+{
+	if ((x >= 0 && x < framedata->data.map_width) && (y >= 0 && y < framedata->data.map_height))
+	{
+		return true;
+	}
+	return false;
+}
+
+void playerDirection(t_frame* frameData, double x, double y)
+{
+	double endX = x + (cos(frameData->player.rotation_angle) * 15);
+	double endY = y + (sin(frameData->player.rotation_angle) * 15);
+	double deltaX = endX - x;
+	double deltaY = endY - y;
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	deltaX /= pixels;
+	deltaY /= pixels;
+	endX = x;
+	endY = y;
+	while (pixels)
+	{
+	    my_mlx_pixel_put(&frameData->mlxData, endX, endY, 0xcd6155);
+	    endX += deltaX;
+	    endY += deltaY;
+	    --pixels;
+	}
+}
+
+void draw2Dmap(t_data *mlxData, t_map_data	*map, t_frame *frameData)
+{
+	int y_index;
+	int x_index;
+	float r = 200;
+	float theta = 0;
+	float		x;
+	float		y;
+	float		x1;
+	float		y2;
+	t_player	player;
+	t_vector_db	first;
+	t_vector_db	sec;
+	int distance;
+
+	// printf("test : %d\n", (int)x >= 0);
+	// exit(1);
+	int count = 0;
+	first.x = 206;
+	first.y = 189;
+	sec.x = 
+	y_index = frameData->player.y;
+	x_index = frameData->player.x;
+	// printf("plyer.x %f\n", frameData->player.x);
+	// printf("plyer.y %f\n", frameData->player.y);
+	// player = frameData->player;
+	draw_minimap(frameData, 206, 189, 200);
+	while (r)
+	{
+		theta = 0;
+		while (theta <= 360)
+		{
+			x = x_index + r * cos((theta * M_PI) / 180.0);
+			y = y_index + r * sin((theta * M_PI) / 180.0);
+			x1 = first.x + r * cos((theta * M_PI) / 180.0);
+			y2 = first.y + r * sin((theta * M_PI) / 180.0);	
+			if (((int)x < MAP_WIDTH && (int)x >= 0) && ((int)y < MAP_HEIGHT && (int)y >= 0))
+			{	
+				if (check(frameData,x / TILE_SIZE, y /TILE_SIZE) && map->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+				{	
+					my_mlx_pixel_put(mlxData, x1 * MINI_MAP_SIZE, y2 * MINI_MAP_SIZE, 0x17202a);
+				}
+				else if (check(frameData,x / TILE_SIZE, y /TILE_SIZE) && map->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == ' ')
+				{
+					my_mlx_pixel_put(mlxData, x1 * MINI_MAP_SIZE, y2 * MINI_MAP_SIZE, 0x2c0545);
+				}
+				else if (check(frameData,x / TILE_SIZE, y / TILE_SIZE) && map->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '0')
+				{	
+					my_mlx_pixel_put(mlxData, x1 * MINI_MAP_SIZE, y2 * MINI_MAP_SIZE, 0xfdfefe);	
+				}
+				else
+				{	
+					my_mlx_pixel_put(mlxData, x1 * MINI_MAP_SIZE, y2 * MINI_MAP_SIZE, 0x2c0545);
+				}
+			}
+			theta += 0.4;
+			count++;
+		}
+		r -= 1;
+	}
+	updatePlayerPosition(frameData, 206, 189);
+	playerDirection(frameData, 206 * MINI_MAP_SIZE, 189 * MINI_MAP_SIZE);
+
+}
+
 
 // void check_facing(t_frame *framData, int ray)
 // {
@@ -161,34 +237,6 @@ double	normalize(double ray_angle)
 	return (ray_angle);
 }
 
-// void    draw_rect(t_frame *frameData, double wallheight, double projection_plane, int index)
-// {
-//     int finish = (frameData->data.map_height * 32 / 2) + (wallheight / 2);
-
-//     for(int y = (frameData->data.map_height * 32 / 2) - (wallheight / 2); y < finish; y++)
-//         my_mlx_pixel_put(&frameData->mlxData, index, y, 0xfdfefe);
-// }
-
-// void    draw_walls(t_frame *frameData)
-// {
-//     for (int projectile = 0; projectile < frameData->N_rays; projectile++)
-//     {
-//         double projection_plane = (frameData->data.map_width * 32 / 2) / tan(frameData->Fov / 2);
-//         double wallhight = (32 / frameData->rays[projectile].distance) * projection_plane;
-//         draw_rect(frameData, wallhight, projection_plane, projectile);
-//     }
-// }
-
-// void put_pixel_from_xpm()
-// {
-// 	char	*dst;
-
-// 	if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
-// 		return ;
-// 	dst = framedata->test_texture.img_xpm + (y * data->line_length + x * (data->bits_per_pixel / 8));
-// 	return  ((unsigned int*)dst);
-// }
-
 unsigned int	get_pixel_color(t_data *data, int x, int y)
 {
 	char	*dst;
@@ -236,9 +284,6 @@ void drawWall(t_frame *frameData, double wallHeight, double projectionDistance, 
 	{
 		y_txr = y_ratio * (y_index - y_index_init);
 		color = put_texture(frameData, x_txr, y_txr, wallHeight);
-		// if (frameData->rays[x_index].hor_hit)
-		// 	my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, color);
-		// else
 		my_mlx_pixel_put(&frameData->mlxData, x_index, y_index, color);
 		y_index++;
 	}	
@@ -294,25 +339,7 @@ int castingRays(t_frame* frameData)
 	return (0);
 }
 
-void playerDirection(t_frame* frameData)
-{
-	double endX = (frameData->player.x) + (cos(frameData->player.rotation_angle) * 50);
-	double endY = frameData->player.y + (sin(frameData->player.rotation_angle) * 50);
-	double deltaX = endX - frameData->player.x;
-	double deltaY = endY - frameData->player.y;
-	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	deltaX /= pixels;
-	deltaY /= pixels;
-	endX = frameData->player.x;
-	endY = frameData->player.y;
-	while (pixels)
-	{
-	    my_mlx_pixel_put(&frameData->mlxData, endX, endY, 0xcd6155);
-	    endX += deltaX;
-	    endY += deltaY;
-	    --pixels;
-	}
-}
+
 
 void frameGenerator(t_frame *frameData)
 {
@@ -323,10 +350,9 @@ void frameGenerator(t_frame *frameData)
 	mlx_clear_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win);
 	castingRays(frameData);
 	renderWall(frameData);
-	draw2Dmap(&(frameData->mlxData), &frameData->data);
-	castingRays(frameData);
-	updatePlayerPosition(frameData);
-	// playerDirection(frameData);
+	draw2Dmap(&(frameData->mlxData), &frameData->data, frameData);
+	// castingRays(frameData);
+	//updatePlayerPosition(frameData, 5);
 	mlx_put_image_to_window(frameData->mlxData.mlx, frameData->mlxData.mlx_win, frameData->mlxData.img, 0, 0);
 }
 

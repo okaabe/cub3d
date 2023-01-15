@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/13 20:17:51 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 04:08:35 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define white " \n"
 # define FOV_ANGLE 60
 # define RAY_WIDTH 20
-# define MINI_MAP_SIZE 0.2
+# define MINI_MAP_SIZE 0.5
 # define MAP_WIDTH 1366
 # define MAP_HEIGHT 768
 # define TILE_SIZE 32
@@ -81,6 +81,7 @@ typedef struct s_rays
 	bool	is_ray_facing_left;
 	bool	vert_hit;
 	bool	hor_hit;
+	
 } t_rays;
 
 // mlx struct
@@ -125,5 +126,5 @@ double		vert_rays(t_frame *frameData, int ray);
 double		calculate_distance(t_vector_db first, t_vector_db sec);
 bool		is_wall(double tmp_x, double tmp_y, t_frame* frameData);
 void		drawray(t_frame* frameData, double ray_angle, double distance, int i);
-
+void		draw_minimap(t_frame *frameData,int x, int y, int radius);
 #endif
