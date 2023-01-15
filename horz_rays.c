@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/13 20:17:15 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 17:17:25 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ double calculate_distance(t_vector_db first, t_vector_db sec)
 
 void drawray(t_frame* frameData, double ray_angle, double distance, int i)
 {
-	t_vector_db player;
+	//t_vector_db player;
 
 	double endX = (frameData->player.x) + (cos(ray_angle) * distance);
 	double endY = frameData->player.y + (sin(ray_angle) * distance);

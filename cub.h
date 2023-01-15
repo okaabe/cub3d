@@ -6,7 +6,7 @@
 /*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/15 09:49:38 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 17:18:50 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ typedef struct s_frame_dependencies
 
 t_map_data	get_map(char *file);
 void		frameGenerator(t_frame *frameData);
-void		initializeMlx(t_data *mlx_data, t_map_data *map);
+void		initializeMlx(t_data *mlx_data);
 int			player_moves(int keycode, t_frame *frameData);
 void		find_the_facing_of_ray(t_frame *frameData, int ray);
 void		isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData);
