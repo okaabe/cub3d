@@ -141,8 +141,8 @@ void draw2Dmap(t_data *mlxData, t_map_data	*map, t_frame *frameData)
 	sec.x = 
 	y_index = frameData->player.y;
 	x_index = frameData->player.x;
-	// printf("plyer.x %f\n", frameData->player.x);
-	// printf("plyer.y %f\n", frameData->player.y);
+	printf("plyer.x %f\n", frameData->player.x);
+	printf("plyer.y %f\n", frameData->player.y);
 	// player = frameData->player;
 	draw_minimap(frameData, 206, 189, 200);
 	while (r)
