@@ -3,49 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/15 09:54:17 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/16 03:30:21 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-
-// void	check_map_walls(char **map)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	while (map[i])
-// 	{
-// 		j = 0;
-// 		while (map[i][j])
-// 		{
-			
-// 		}
-// 	}
-	
-// }
-
-void get_player_postion(t_map_data	*data)
+void	get_player_postion(t_map_data	*data)
 {
-	int i;
+	int		i;
 	char	*c;
 	char	**position;
 	int		j;
 
 	position = ft_split(POSITION, ' ');
 	i = 0;
-	while(data->map[i])
+	while (data->map[i])
 	{
 		j = 0;
-		while(position[j])
+		while (position[j])
 		{
 			c = ft_strchr(data->map[i], position[j][0]);
 			if (c)
-				break;
+				break ;
 			j++;
 		}
 		if (c)
@@ -54,15 +37,15 @@ void get_player_postion(t_map_data	*data)
 			data->player_position.x = c - data->map[i];
 			data->player_position.orientation = *c;
 			data->map[data->player_position.y][data->player_position.x] = '0';
-			break;
+			break ;
 		}
 		i++;
 	}
 }
 
-char *fill_the_grid(char *str,size_t len)
+char	*fill_the_grid(char *str,size_t len)
 {
-	char *line;
+	char	*line;
 	line = (char *)malloc(len + 1);
 	line[len] = 0;
 	ft_strlcpy(line, str, len);

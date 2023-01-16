@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/15 17:56:36 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/16 02:56:48 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_textures
 typedef struct s_frame_dependencies
 {
 	t_player	player;
-	t_data		mlxData;
+	t_data		mlxdata;
 	t_map_data	data;
 	double		Fov;
 	t_texture	*textures;
@@ -126,16 +126,28 @@ typedef struct s_frame_dependencies
 
 
 t_map_data	get_map(char *file);
-void		frameGenerator(t_frame *frameData);
-void		initializeMlx(t_data *mlx_data, t_map_data *map);
+void		framegenerator(t_frame *frameData);
+void		initializemlx(t_data *mlx_data);
 int			player_moves(int keycode, t_frame *frameData);
 void		find_the_facing_of_ray(t_frame *frameData, int ray);
-void		isThereA_wall(double tmp_x, double tmp_y, t_frame* frameData);
+void		isthere_wall(double tmp_x, double tmp_y, t_frame* frameData);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-double		Horz_rays(t_frame *frameData, int ray);
+double		horz_rays(t_frame *frameData, int ray);
 double		vert_rays(t_frame *frameData, int ray);
 double		calculate_distance(t_vector_db first, t_vector_db sec);
 bool		is_wall(double tmp_x, double tmp_y, t_frame* frameData);
-void		drawray(t_frame* frameData, double ray_angle, double distance, int i);
+void		drawray(t_frame *frameData, double ray_angle, double distance, int i);
 void		draw_minimap(t_frame *frameData,int x, int y, int radius);
+void		draw_map(t_map_data	*map, t_frame *frameData);
+void		renderWall(t_frame *frameData);
+t_texture	*get_texture(t_frame *frame_data, int i);
+void		floor_and_ceiling(t_frame *frameData, int x_index, int y);
+void		update_player_position(t_frame *framedata, double p_x, double p_y);
+void		playerdirection(t_frame	*framedata, double x, double y);
+bool		check(t_frame *framedata, int x, int y);
+void		get_distance(t_frame *framedata, t_vector_db distances, int ray);
+double		normalize(double ray_angle);
+bool		verify(t_frame *framedata, t_vector_db horz_touch);
+void		floor_and_ceiling(t_frame	*frameData, int x_index, int y);
+
 #endif
