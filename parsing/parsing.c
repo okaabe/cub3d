@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 14:23:10 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:24:16 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	fill_map(t_list **map, t_map_data *data)
 	int		i;
 	int		len;
 	t_list	*tmp;
+
 	data->map_width = get_map_len(*map);
 	len = ft_lstsize(*map);
 	i = 0;
