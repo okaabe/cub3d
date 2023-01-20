@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:17:09 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 02:22:00 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:36:54 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	castingrays(t_frame *frameData)
 	t_vector_db	distances;
 
 	i = 0;
-	rays_numbers = frameData->N_rays;
-	ray_angle = frameData->player.rotation_angle - (frameData->Fov / 2);
+	rays_numbers = frameData->n_rays;
+	ray_angle = frameData->player.rotation_angle - (frameData->fov / 2);
 	frameData->rays = malloc(sizeof(t_rays) * (rays_numbers + 1));
 	while (i < rays_numbers)
 	{
@@ -31,7 +31,7 @@ int	castingrays(t_frame *frameData)
 		distances.y = vert_rays(frameData, i);
 		get_distance(frameData, distances, i);
 		drawray(frameData, ray_angle, frameData->rays[i].distance, i);
-		ray_angle += frameData->Fov / frameData->N_rays;
+		ray_angle += frameData->fov / frameData->n_rays;
 		i++;
 	}
 	return (0);
@@ -47,7 +47,7 @@ void	framegenerator(t_frame *frameData)
 			&frameData->mlxdata.endian);
 	mlx_clear_window(frameData->mlxdata.mlx, frameData->mlxdata.mlx_win);
 	castingrays(frameData);
-	renderWall(frameData);
+	renderwall(frameData);
 	draw_map(&frameData->data, frameData);
 	mlx_put_image_to_window(frameData->mlxdata.mlx,
 		frameData->mlxdata.mlx_win, frameData->mlxdata.img, 0, 0);
@@ -98,6 +98,8 @@ void	valid_move(int keycode, t_frame *frameData)
 
 int	player_moves(int keycode, t_frame *frameData)
 {
+	if (keycode == 53)
+		exit_program();
 	valid_move(keycode, frameData);
 	if (keycode == 123)
 		frameData->player.rotation_angle -= (9 * M_PI) / 180;

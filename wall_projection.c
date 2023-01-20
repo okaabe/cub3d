@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 19:00:15 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 03:28:16 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:56:54 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,20 @@ void	drawWall(t_frame *frameData, double wallHeight, int x_index)
 	}
 }
 
-void	renderWall(t_frame *frameData)
+void	renderwall(t_frame *frameData)
 {
-	double	wallHeight;
-	double	projectionDistance;
+	double	wallheight;
+	double	projectiondistance;
 	int		i;
 	double	ray_distance;
 
 	i = 0;
-	while (i < frameData->N_rays)
+	while (i < frameData->n_rays)
 	{
 		ray_distance = frameData->rays[i].distance * cos(frameData->rays[i].ray_angle - frameData->player.rotation_angle);
-		projectionDistance = ((MAP_WIDTH) / 2) / tan(frameData->Fov / 2);
-		wallHeight = (TILE_SIZE / ray_distance) * projectionDistance;
-		drawWall(frameData, wallHeight, i);
+		projectiondistance = ((MAP_WIDTH) / 2) / tan(frameData->fov / 2);
+		wallheight = (TILE_SIZE / ray_distance) * projectiondistance;
+		drawWall(frameData, wallheight, i);
 		i++;
 	}
 }

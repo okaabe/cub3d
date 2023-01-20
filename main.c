@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 02:16:02 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:19:27 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	set_textures(t_frame	*frame_data)
 				frame_data->data.direction[index],
 				&frame_data->textures[index].width,
 				&frame_data->textures[index].height);
+		if (!frame_data->textures[index].mlxtexture.img)
+		{
+			printf("invalid texture\n");
+			exit(1);
+		}
 		frame_data->textures[index].mlxtexture.addr
 			= mlx_get_data_addr(frame_data->textures[index].mlxtexture.img,
 				&frame_data->textures[index].mlxtexture.bits_per_pixel,
@@ -47,6 +52,11 @@ double	get_player_direction(char direction)
 	return (SOUTH);
 }
 
+int	exit_program(void)
+{
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_frame	framedata;
@@ -57,12 +67,13 @@ int	main(int argc, char **argv)
 	framedata.player.y = (framedata.data.player_position.y * TILE_SIZE) + 16;
 	framedata.player.rotation_angle
 		= get_player_direction(framedata.data.player_position.orientation);
-	framedata.Fov = FOV_ANGLE * (M_PI / 180);
-	framedata.N_rays = MAP_WIDTH;
+	framedata.fov = FOV_ANGLE * (M_PI / 180);
+	framedata.n_rays = MAP_WIDTH;
 	initializemlx(&framedata.mlxdata);
 	set_textures(&framedata);
 	framegenerator(&framedata);
 	mlx_hook(framedata.mlxdata.mlx_win, 2, 0, player_moves, &framedata);
+	mlx_hook(framedata.mlxdata.mlx_win, 17, 0, exit_program, NULL);
 	mlx_put_image_to_window(framedata.mlxdata.mlx,
 		framedata.mlxdata.mlx_win, framedata.mlxdata.img, 0, 0);
 	mlx_loop(framedata.mlxdata.mlx);
