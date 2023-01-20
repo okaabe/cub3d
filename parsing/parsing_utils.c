@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:20:35 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/17 20:46:18 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:57:44 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ bool	get_player_postion(t_map_data	*data)
 			break ;
 		i++;
 	}
+	i = 0;
+	while (position[i])
+		free(position[i++]);
+	free(position);
 	if (!data->map[i])
 		return (false);
 	return (true);

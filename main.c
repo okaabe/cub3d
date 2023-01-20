@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 17:42:46 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 10:19:27 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:41:06 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,25 @@ int	main(int argc, char **argv)
 {
 	t_frame	framedata;
 
-	(void)argc;
-	framedata.data = get_map(argv[1]);
-	framedata.player.x = (framedata.data.player_position.x * TILE_SIZE) + 16;
-	framedata.player.y = (framedata.data.player_position.y * TILE_SIZE) + 16;
-	framedata.player.rotation_angle
-		= get_player_direction(framedata.data.player_position.orientation);
-	framedata.fov = FOV_ANGLE * (M_PI / 180);
-	framedata.n_rays = MAP_WIDTH;
-	initializemlx(&framedata.mlxdata);
-	set_textures(&framedata);
-	framegenerator(&framedata);
-	mlx_hook(framedata.mlxdata.mlx_win, 2, 0, player_moves, &framedata);
-	mlx_hook(framedata.mlxdata.mlx_win, 17, 0, exit_program, NULL);
-	mlx_put_image_to_window(framedata.mlxdata.mlx,
-		framedata.mlxdata.mlx_win, framedata.mlxdata.img, 0, 0);
-	mlx_loop(framedata.mlxdata.mlx);
+	if (argc == 2)
+	{
+		(void)argc;
+		framedata.data = get_map(argv[1]);
+		framedata.player.x = (framedata.data.player_position.x * TILE_SIZE)
+			+ 16;
+		framedata.player.y = (framedata.data.player_position.y * TILE_SIZE)
+			+ 16;
+		framedata.player.rotation_angle
+			= get_player_direction(framedata.data.player_position.orientation);
+		framedata.fov = FOV_ANGLE * (M_PI / 180);
+		framedata.n_rays = MAP_WIDTH;
+		initializemlx(&framedata.mlxdata);
+		set_textures(&framedata);
+		framegenerator(&framedata);
+		mlx_hook(framedata.mlxdata.mlx_win, 2, 0, player_moves, &framedata);
+		mlx_hook(framedata.mlxdata.mlx_win, 17, 0, exit_program, NULL);
+		mlx_put_image_to_window(framedata.mlxdata.mlx,
+			framedata.mlxdata.mlx_win, framedata.mlxdata.img, 0, 0);
+		mlx_loop(framedata.mlxdata.mlx);
+	}
 }

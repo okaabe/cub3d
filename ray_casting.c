@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:17:09 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 10:36:54 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:22:57 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	castingrays(t_frame *frameData)
 	return (0);
 }
 
+
 void	framegenerator(t_frame *frameData)
 {
 	mlx_destroy_image(frameData->mlxdata.mlx, frameData->mlxdata.img);
@@ -51,6 +52,7 @@ void	framegenerator(t_frame *frameData)
 	draw_map(&frameData->data, frameData);
 	mlx_put_image_to_window(frameData->mlxdata.mlx,
 		frameData->mlxdata.mlx_win, frameData->mlxdata.img, 0, 0);
+	free(frameData->rays);
 }
 
 void	isthere_wall(double tmp_x, double tmp_y, t_frame *frameData)

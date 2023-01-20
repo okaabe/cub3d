@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:50:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 01:37:30 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:36:48 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	draw_pixel(t_vector_db	f_cer, t_vector_db	s_cer,
 			my_mlx_pixel_put(&framedata->mlxdata,
 				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0xfdfefe);
 		else
+		{
 			my_mlx_pixel_put(&framedata->mlxdata,
 				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x2c0545);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 19:00:15 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 10:56:54 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 11:00:43 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	drawWall(t_frame *frameData, double wallHeight, int x_index)
 		end = MAP_HEIGHT;
 	}
 	else
-	{	
+	{
 		floor_and_ceiling(frameData, x_index,
 			(MAP_HEIGHT / 2) + (wallHeight / 2));
 	}
