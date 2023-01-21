@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 10:36:43 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:01:25 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@
 # define NORTH 0
 # define EAST M_PI_2
 # define SOUTH M_PI
-# define WEST (M_PI + (M_PI / 2))
+# define WEST 2.3561944901923449288469825374596
 # define N 3
 # define E 1
 # define S 2
 # define W 0
+# define y_txr (txr->height / wallHeight) * (y_index - y_index_init)
 
 typedef struct s_vector_db
 {
@@ -132,14 +133,13 @@ void		draw_minimap(t_frame *frameData, int x, int y, int radius);
 void		draw_map(t_map_data	*map, t_frame *frameData);
 void		renderwall(t_frame *frameData);
 t_texture	*get_texture(t_frame *frame_data, int i);
-void		floor_and_ceiling(t_frame *frameData, int x_index, int y);
 void		update_player_position(t_frame *framedata, double p_x, double p_y);
 void		playerdirection(t_frame	*framedata, double x, double y);
 bool		check(t_frame *framedata, int x, int y);
 void		get_distance(t_frame *framedata, t_vector_db distances, int ray);
 double		normalize(double ray_angle);
 bool		verify(t_frame *framedata, t_vector_db horz_touch);
-void		floor_and_ceiling(t_frame	*frameData, int x_index, int y);
+void		f_c(t_frame	*frameData, int x_index, int y);
 bool		get_player_postion(t_map_data	*data);
 void		get_textures(t_list **map, t_map_data *data);
 char		*fill_the_grid(char *str, size_t len);

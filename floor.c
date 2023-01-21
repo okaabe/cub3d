@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   floor.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:54:42 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 02:55:41 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:54:25 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	floor_and_ceiling(t_frame	*frameData, int x_index, int y)
+void	f_c(t_frame	*frameData, int x_index, int y)
 {
 	int	color;
 	int	end;

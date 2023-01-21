@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:17:47 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/16 02:21:15 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:01:07 by ahamdy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	initializemlx(t_data *mlx_data)
 {
 	mlx_data->mlx = mlx_init();
 	mlx_data->mlx_win = mlx_new_window(mlx_data->mlx,
-			MAP_WIDTH, MAP_HEIGHT, "Hello world!");
+			MAP_WIDTH, MAP_HEIGHT, "cub3D");
 	mlx_data->img = mlx_new_image(mlx_data->mlx, MAP_WIDTH, MAP_HEIGHT);
 	mlx_data->addr = mlx_get_data_addr(mlx_data->img,
 			&mlx_data->bits_per_pixel, &mlx_data->line_length,
