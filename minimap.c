@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:50:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 12:36:48 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:25:57 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,25 @@
 void	draw_pixel(t_vector_db	f_cer, t_vector_db	s_cer,
 		t_frame	*framedata, t_map_data	*map)
 {
-	if (((int)f_cer.x < MAP_WIDTH && (int)f_cer.x >= 0)
-		&& ((int)f_cer.y < MAP_HEIGHT && (int)f_cer.y >= 0))
-	{	
-		if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
-			&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
-				== '1')
-			my_mlx_pixel_put(&framedata->mlxdata,
-				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x17202a);
-		else if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
-			&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
-				== ' ')
-			my_mlx_pixel_put(&framedata->mlxdata,
-				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x2c0545);
-		else if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
-			&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
-			== '0')
-			my_mlx_pixel_put(&framedata->mlxdata,
-				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0xfdfefe);
-		else
-		{
-			my_mlx_pixel_put(&framedata->mlxdata,
-				s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x2c0545);
-		}
+	if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
+		&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
+			== '1')
+		my_mlx_pixel_put(&framedata->mlxdata,
+			s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x17202a);
+	else if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
+		&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
+			== ' ')
+		my_mlx_pixel_put(&framedata->mlxdata,
+			s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x2c0545);
+	else if (check(framedata, f_cer.x / TILE_SIZE, f_cer.y / TILE_SIZE)
+		&& map->map[(int)(f_cer.y / TILE_SIZE)][(int)(f_cer.x / TILE_SIZE)]
+		== '0')
+		my_mlx_pixel_put(&framedata->mlxdata,
+			s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0xfdfefe);
+	else
+	{
+		my_mlx_pixel_put(&framedata->mlxdata,
+			s_cer.x * MINI_MAP_SIZE, s_cer.y * MINI_MAP_SIZE, 0x2c0545);
 	}
 }
 

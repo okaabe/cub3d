@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:17:09 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 15:08:53 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/21 17:32:16 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	castingrays(t_frame *frameData)
 	return (0);
 }
 
-
 void	framegenerator(t_frame *frameData)
 {
 	mlx_destroy_image(frameData->mlxdata.mlx, frameData->mlxdata.img);
@@ -57,13 +56,20 @@ void	framegenerator(t_frame *frameData)
 
 void	isthere_wall(double tmp_x, double tmp_y, t_frame *frameData)
 {
-	int	x;
-	int	y;
+	t_vector	first_sqr;
+	t_vector	sec_sqr;
 
-	y = tmp_y / TILE_SIZE;
-	x = tmp_x / TILE_SIZE;
-	if (frameData->data.map[y][x] == '0' && tmp_x != -1 && tmp_y != -1)
-	{
+	first_sqr.x = tmp_x / TILE_SIZE;
+	first_sqr.y = frameData->player.y / TILE_SIZE;
+	sec_sqr.x = frameData->player.x / TILE_SIZE;
+	sec_sqr.y = tmp_y / TILE_SIZE;
+	if (frameData->data.map[first_sqr.y][first_sqr.x] != '0')
+		return ;
+	if (frameData->data.map[sec_sqr.y][sec_sqr.x] != '0')
+		return ;
+	if (frameData->data.map[(int)(tmp_y / TILE_SIZE)][(int)(tmp_x / TILE_SIZE)]
+			== '0')
+	{	
 		frameData->player.x = tmp_x;
 		frameData->player.y = tmp_y;
 	}
@@ -93,7 +99,7 @@ void	valid_move(int keycode, t_frame *frameData)
 	else if (keycode == 1)
 	{
 		tmp.y -= (sin(frameData->player.rotation_angle) * 10);
-		tmp.x -= (cos(frameData->player.rotation_angle) * 10); 
+		tmp.x -= (cos(frameData->player.rotation_angle) * 10);
 	}
 	isthere_wall(tmp.x, tmp.y, frameData);
 }

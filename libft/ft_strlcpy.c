@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 17:34:29 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/09 13:49:42 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:59:35 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
-	
+
 	i = 0;
 	if (size > 0)
 	{

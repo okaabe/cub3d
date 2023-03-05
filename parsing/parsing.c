@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:32:59 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 14:24:16 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:06:08 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	fill_map(t_list **map, t_map_data *data)
 	data->map_width = get_map_len(*map);
 	len = ft_lstsize(*map);
 	i = 0;
-	data->map = malloc(len * (sizeof(char **) + 1));
+	data->map = malloc((len + 1) * (sizeof(char *)));
 	data->map_height = len;
 	data->map[len] = NULL;
-	while (i < len)
+	while (i < (len))
 	{
 		tmp = *map;
 		data->map[i] = fill_the_grid((*map)->content, data->map_width);
@@ -64,25 +64,6 @@ t_list	*get_line(int fd)
 	if (!content)
 		return (NULL);
 	return (ft_lstnew(content, 0));
-}
-
-int	ft_check_file(char *file)
-{
-	int		len_path;
-
-	len_path = ft_strlen(file);
-	if (len_path < 5)
-	{
-		printf("invalid file");
-		exit(1);
-	}
-	if (ft_strncmp(".cub", &file[len_path - 4], 3)
-		|| !ft_strncmp(".cub", file, 3))
-	{
-		printf("invalid file");
-		exit(1);
-	}
-	return (0);
 }
 
 t_map_data	get_map(char *file)

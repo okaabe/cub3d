@@ -6,7 +6,7 @@
 /*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:20:35 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 13:57:44 by aamoussa         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:06:24 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ char	*fill_the_grid(char *str, size_t len)
 	line = (char *)malloc(len + 1);
 	line[len] = 0;
 	ft_strlcpy(line, str, len);
-	ft_memset(line + (ft_strlen(str) - 1), ' ', len - (ft_strlen(str) - 1));
+	if (ft_strchr(str, '\n'))
+		ft_memset(line + (ft_strlen(str) - 1), ' ', len - (ft_strlen(str) - 1));
+	else
+		ft_memset(line + (ft_strlen(str) - 1), ' ', len - (ft_strlen(str)));
 	return (line);
 }
 
@@ -59,11 +62,18 @@ bool	get_player_postion(t_map_data	*data)
 			break ;
 		i++;
 	}
-	i = 0;
-	while (position[i])
-		free(position[i++]);
-	free(position);
+	ft_free_splited(position);
 	if (!data->map[i])
 		return (false);
 	return (true);
+}
+
+int	check_c(int c)
+{
+	if (c < 0 || c > 255)
+	{
+		printf("invalid color\n");
+		exit(1);
+	}
+	return (c);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   horz_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:45:24 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 15:50:31 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/15 21:43:51 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ void	drawray(t_frame	*frameData, double ray_angle, double distance, int i)
 {
 	double	endx;
 	double	endy;
-	// double	deltax;
-	// double	deltay;
-	// int		pixels;
+	double	deltax;
+	double	deltay;
+	int		pixels;
 
 	endx = (frameData->player.x) + (cos(ray_angle) * distance);
 	endy = frameData->player.y + (sin(ray_angle) * distance);
 	frameData->rays[i].x = endx;
 	frameData->rays[i].y = endy;
-	// deltax = endx - frameData->player.x;
-	// deltay = endy - frameData->player.y;
-	// pixels = sqrt((deltax * deltax) + (deltay * deltay));
-	// deltax /= pixels;
-	// deltay /= pixels;
-	// endx = frameData->player.x;
-	// endy = frameData->player.y;
- }
+	deltax = endx - frameData->player.x;
+	deltay = endy - frameData->player.y;
+	pixels = sqrt((deltax * deltax) + (deltay * deltay));
+	deltax /= pixels;
+	deltay /= pixels;
+	endx = frameData->player.x;
+	endy = frameData->player.y;
+}
 
 void	find_hsteps(t_frame *frameData, t_vector_db *intercept,
 		t_vector_db *step, int ray)

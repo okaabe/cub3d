@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wall_projection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 19:00:15 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/21 13:04:39 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/21 17:05:22 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,30 @@ int	get_x_txr(t_frame *frameData, t_texture *txr, int x_index)
 
 void	drawall(t_frame *frameData, double wallHeight, int x_index)
 {
-	int			y_index;
-	int			x_txr;
+	t_vector	index;
 	t_texture	*txr;
 	int			end;
 	int			y_index_init;
 
 	txr = get_texture(frameData, x_index);
-	x_txr = get_x_txr(frameData, txr, x_index);
+	index.x = get_x_txr(frameData, txr, x_index);
 	end = (MAP_HEIGHT / 2) + (wallHeight / 2);
-	y_index = ((MAP_HEIGHT) / 2) - (wallHeight / 2) - 1;
-	y_index_init = y_index; 
-	if (y_index < 0)
-		y_index = 0;
+	index.y = ((MAP_HEIGHT) / 2) - (wallHeight / 2);
+	y_index_init = index.y;
+	if (index.y < 0)
+		index.y = 0;
 	else
 		f_c(frameData, x_index, (MAP_HEIGHT / 2) - (wallHeight / 2));
 	if (end > MAP_HEIGHT)
 		end = MAP_HEIGHT;
 	else
 		f_c(frameData, x_index, (MAP_HEIGHT / 2) + (wallHeight / 2));
-	while (++y_index < end)
+	while (index.y < end)
 	{
 		my_mlx_pixel_put(&frameData->mlxdata, x_index,
-			y_index, put_texture(txr, x_txr, 
-				(txr->height / wallHeight) * (y_index - y_index_init)));
+			index.y, put_texture(txr, index.x,
+				(txr->height / wallHeight) * (index.y - y_index_init)));
+		index.y++;
 	}
 }
 

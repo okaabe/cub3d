@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 18:40:05 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/21 13:01:25 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/21 17:01:43 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define E 1
 # define S 2
 # define W 0
-# define y_txr (txr->height / wallHeight) * (y_index - y_index_init)
 
 typedef struct s_vector_db
 {
@@ -133,18 +132,27 @@ void		draw_minimap(t_frame *frameData, int x, int y, int radius);
 void		draw_map(t_map_data	*map, t_frame *frameData);
 void		renderwall(t_frame *frameData);
 t_texture	*get_texture(t_frame *frame_data, int i);
+void		f_c(t_frame	*frameData, int x_index, double y);
 void		update_player_position(t_frame *framedata, double p_x, double p_y);
 void		playerdirection(t_frame	*framedata, double x, double y);
 bool		check(t_frame *framedata, int x, int y);
 void		get_distance(t_frame *framedata, t_vector_db distances, int ray);
 double		normalize(double ray_angle);
 bool		verify(t_frame *framedata, t_vector_db horz_touch);
-void		f_c(t_frame	*frameData, int x_index, int y);
 bool		get_player_postion(t_map_data	*data);
 void		get_textures(t_list **map, t_map_data *data);
 char		*fill_the_grid(char *str, size_t len);
 int			create_trgb(int t, int r, int g, int b);
 void		check_map_walls(char **map, t_map_data data);
 int			exit_program(void);
+void		ft_clean_content(char ***splited_path, char **txr_path,
+				t_list **map, char *str);
+void		ft_free_splited(char **splited_path);
+void		check_textures(t_map_data *data);
+void		ft_check_first_line(char **map, t_map_data data);
+int			ft_check_file(char *file);
+void		check_color(char **splited_color);
+void		check_rules(char *str);
+int			check_c(int c);
 
 #endif

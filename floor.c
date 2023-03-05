@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   floor.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahamdy <ahamdy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamoussa <aamoussa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 02:54:42 by aamoussa          #+#    #+#             */
-/*   Updated: 2023/01/20 17:54:25 by ahamdy           ###   ########.fr       */
+/*   Updated: 2023/01/21 14:50:41 by aamoussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	f_c(t_frame	*frameData, int x_index, int y)
+void	f_c(t_frame	*frameData, int x_index, double y)
 {
 	int	color;
 	int	end;
